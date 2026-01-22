@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #f9fafb;
+}
+
+.app {
+  text-align: center;
+}
+
+.hero {
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: white;
+}
+
+.hero h1 {
+  font-size: 3rem;
+}
+
+.buttons a {
+  background: white;
+  color: #2563eb;
+  padding: 14px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.features {
+  padding: 60px 20px;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.universities {
+  padding: 40px;
+  background: #eef2ff;
+}
+
+footer {
+  padding: 20px;
+  color: #666;
+}
