@@ -12,7 +12,7 @@ export default function TaskDetails({ user }) {
     return <div className="p-6">Please login</div>;
   }
   const { taskId } = useParams();
-  const [task, setTask] = useState(null);
+  const [task, setTask] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
   const fetchTask = async () => {   // 👈 move here
