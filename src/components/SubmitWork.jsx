@@ -9,13 +9,13 @@ export default function SubmitWork({ task, user, onSubmitted }) {
   if (!user) {
     return <div className="p-6">Please login</div>;
   }
-  
+
   const [url, setUrl] = useState("");
   const [comment, setComment] = useState("");
   const [timeSpent, setTimeSpent] = useState("");
   const [loading, setLoading] = useState(false);
 
-  if (!user || task.assignedTo !== user.uid) return null;
+  if (!user || task.assignedTo !== user?.uid) return null;
   if (task.status !== "in_progress") return null;
 
   const handleSubmit = async () => {

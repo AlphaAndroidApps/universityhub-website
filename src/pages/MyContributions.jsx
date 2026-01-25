@@ -16,7 +16,7 @@ export default function MyContributions({ user }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;   // 🔒 critical
+    if (!user?.uid) return;   // 🔒 critical
 
     async function fetchSubs() {
       const q = query(

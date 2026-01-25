@@ -21,7 +21,7 @@ export default function TaskCard({ task, user }) {
     e.stopPropagation();
     const ok = confirm("Are you sure you want to resign from this task?");
     if (!ok) return;
-    if (!user) return;
+    if (!user?.uid) return;
 
     await resignTask(task.id, user.uid);
     alert("You have resigned from the task.");
