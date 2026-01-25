@@ -4,6 +4,7 @@ import { getTaskById } from "../services/tasks";
 import SubmitWork from "../components/SubmitWork";
 
 export default function TaskDetails({ user }) {
+  if (!user) return <div className="p-6">Please login</div>;
   const { taskId } = useParams();
   const [task, setTask] = useState(null);
   const [loading, setLoading] = useState(true);
