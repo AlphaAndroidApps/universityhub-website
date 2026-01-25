@@ -8,6 +8,8 @@ import { resignTask } from "../services/tasks";
 const ADMIN_EMAIL = "appdroidplus7@gmail.com"; // change if needed
 
 export default function Dashboard({ user }) {
+  if (!user) return <div className="p-6">Please login</div>;
+
   const [assigned, setAssigned] = useState([]);
   const [subs, setSubs] = useState([]);
   const [loading, setLoading] = useState(true);

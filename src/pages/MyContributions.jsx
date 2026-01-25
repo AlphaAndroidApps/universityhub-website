@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function MyContributions({ user }) {
+  if (!user) return <div className="p-6">Please login</div>;
+
   const [subs, setSubs] = useState([]);
   const [loading, setLoading] = useState(true);
 

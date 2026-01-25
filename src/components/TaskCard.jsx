@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 const ADMIN_EMAIL = "appdroidplus7@gmail.com";
 
 export default function TaskCard({ task, user }) {
+  if (!user) return <div className="p-6">Please login</div>;
+
   const navigate = useNavigate();
   const isAdmin = user?.email === ADMIN_EMAIL;
   const hasRequested = task.requests?.some(r => r.uid === user?.uid);
