@@ -1,11 +1,12 @@
-import "./index.css";
+import "../index.css";
+import preview from "../assets/app-preview.jpg";
 
-export default function App() {
+export default function Landing() {
   return (
     <div className="bg-slate-50 text-slate-900">
 
       {/* NAVBAR */}
-      <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      {/* <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-indigo-600">
           University Hub
         </h1>
@@ -15,7 +16,7 @@ export default function App() {
         >
           Get App
         </a>
-      </nav>
+      </nav> */}
 
       {/* HERO */}
       <section className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
@@ -39,6 +40,12 @@ export default function App() {
               Download App
             </a>
             <a
+    href="#/dashboard"
+    className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold"
+  >
+    Become a Contributor
+  </a>
+            <a
               href="#features"
               className="border border-gray-300 px-6 py-3 rounded-lg"
             >
@@ -51,10 +58,17 @@ export default function App() {
           </p>
         </div>
 
-        <img
-          src="https://dummyimage.com/350x700/4f46e5/ffffff&text=University+Hub"
-          className="mx-auto rounded-3xl shadow-2xl"
-        />
+        <div className="relative mx-auto w-[360px]">
+  <div className="absolute -inset-1 bg-indigo-500 rounded-[42px] blur opacity-30"></div>
+  <div className="relative bg-black p-2 rounded-[40px]">
+    <img
+      src={preview}
+      className="rounded-[32px]"
+      alt="University Hub App"
+    />
+  </div>
+</div>
+
       </section>
 
       {/* FEATURES */}
@@ -136,4 +150,3 @@ export default function App() {
     </div>
   );
 }
-  

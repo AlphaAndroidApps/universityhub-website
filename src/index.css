@@ -3,3 +3,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+button {
+  cursor: pointer;
+}
+
+.task-section {
+  margin-top: 16px;
+}
+
+.task-section h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4f46e5;
+  margin-bottom: 6px;
+}
+
+.task-section ul {
+  padding-left: 18px;
+}
+
+.task-section li {
+  margin-bottom: 4px;
+}
+
+.task-highlight {
+  margin-top: 20px;
+  padding: 12px;
+  border-left: 4px solid #22c55e;
+  background: #f0fdf4;
+  border-radius: 8px;
+}
