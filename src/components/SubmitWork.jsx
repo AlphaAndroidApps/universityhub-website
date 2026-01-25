@@ -2,6 +2,14 @@ import { useState } from "react";
 import { submitTask, submitTaskUpdateStatus } from "../services/tasks";
 
 export default function SubmitWork({ task, user, onSubmitted }) {
+  if (user === undefined) {
+    return <div className="p-6">Checking session...</div>;
+  }
+
+  if (!user) {
+    return <div className="p-6">Please login</div>;
+  }
+  
   const [url, setUrl] = useState("");
   const [comment, setComment] = useState("");
   const [timeSpent, setTimeSpent] = useState("");

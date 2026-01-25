@@ -23,7 +23,7 @@ export default function Dashboard({ user }) {
   const isAdmin = user?.email === ADMIN_EMAIL;
 
   useEffect(() => {
-    if (!user) return;   // 🔒 critical
+    // if (!user) return;   // 🔒 critical
     async function fetchAll() {
       const tq = query(
         collection(db, "tasks"),
