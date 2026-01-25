@@ -8,6 +8,8 @@ export default function MyContributions({ user }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!user) return;   // 🔒 critical
+
     async function fetchSubs() {
       const q = query(
         collection(db, "submissions"),

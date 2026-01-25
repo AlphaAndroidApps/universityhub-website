@@ -4,7 +4,7 @@ import { addDoc, collection } from "firebase/firestore";
 
 export default function CommentBox({ taskId, user }) {
   const [message, setMessage] = useState("");
-
+  if (!user) return null;   // 🔒 guard
   const submit = async () => {
     await addDoc(collection(db, "tasks", taskId, "comments"), {
       userId: user.uid,
