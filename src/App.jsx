@@ -52,7 +52,7 @@ export default function App() {
           path="/admin"
           element={
             user?.email === "appdroidplus7@gmail.com" ? (
-              <AdminDashboard />
+              <AdminDashboard user={user}/>
             ) : (
               <div className="p-6">Not authorized</div>
             )

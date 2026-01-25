@@ -9,7 +9,10 @@ import {
 import { db } from "../firebase/firebase";
 import { useEffect, useState } from "react";
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ user }) {
+if (!user || !user.uid) {
+    return; 
+  }
   const [subs, setSubs] = useState([]);
   const [loading, setLoading] = useState(true);
 
