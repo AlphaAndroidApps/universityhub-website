@@ -11,6 +11,13 @@ import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import MyContributions from "./pages/MyContributions";
 
+// A small helper for protected routes
+const ProtectedRoute = ({ user, children }) => {
+  if (!user) {
+    return <div className="p-10 text-center">Please login to view this page.</div>;
+  }
+  return children;
+};
 
 export default function App() {
   const [user, loading] = useAuthState(auth);
@@ -32,7 +39,15 @@ export default function App() {
         <Route path="/tasks" element={<Tasks user={user} />} />
         <Route path="/tasks/:taskId" element={<TaskDetails user={user} />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route path="/dashboard" element={<Dashboard user={user} />} />
+        {/* Wrap pages that REQUIRE a user to prevent null errors */}
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute user={user}>
+              <Dashboard user={user} />
+            </ProtectedRoute>
+          } 
+        />
         <Route
           path="/admin"
           element={
