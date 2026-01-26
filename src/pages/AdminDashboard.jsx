@@ -10,8 +10,12 @@ import { db } from "../firebase/firebase";
 import { useEffect, useState } from "react";
 
 export default function AdminDashboard({ user }) {
-if (!user || !user.uid) {
-    return; 
+  if (user === undefined) {
+    return <div className="p-6">Checking session...</div>;
+  }
+
+  if (!user) {
+    return <div className="p-6">Please login</div>;
   }
   const [subs, setSubs] = useState([]);
   const [loading, setLoading] = useState(true);

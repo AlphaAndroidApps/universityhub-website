@@ -16,9 +16,13 @@ export default function MyContributions({ user }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user || !user.uid) {
-    return; 
-  }  // 🔒 critical
+    if (user === undefined) {
+  return <div className="p-6">Checking session...</div>;
+}
+
+if (!user) {
+  return <div className="p-6">Please login</div>;
+}
 
     async function fetchSubs() {
       const q = query(

@@ -23,9 +23,13 @@ export default function Dashboard({ user }) {
   const isAdmin = user?.email === ADMIN_EMAIL;
 
   useEffect(() => {
-    if (!user || !user.uid) {
-    return; 
-  }
+    if (user === undefined) {
+      return <div className="p-6">Checking session...</div>;
+    }
+
+    if (!user) {
+      return <div className="p-6">Please login</div>;
+    }
     async function fetchAll() {
       const tq = query(
         collection(db, "tasks"),
