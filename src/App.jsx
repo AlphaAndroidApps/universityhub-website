@@ -12,12 +12,26 @@ import AdminDashboard from "./pages/AdminDashboard";
 import MyContributions from "./pages/MyContributions";
 
 // A small helper for protected routes
-const ProtectedRoute = ({ user, children }) => {
-  if (!user) {
-    return <div className="p-10 text-center">Please login to view this page.</div>;
+const ProtectedRoute = ({ user, loading, children }) => {
+  if (loading) {
+    return (
+      <div className="p-10 text-center">
+        Checking session...
+      </div>
+    );
   }
+
+  if (!user) {
+    return (
+      <div className="p-10 text-center">
+        Please login to view this page.
+      </div>
+    );
+  }
+
   return children;
 };
+
 
 export default function App() {
   const [user, loading] = useAuthState(auth);
@@ -43,7 +57,7 @@ export default function App() {
         <Route 
           path="/dashboard" 
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={user} loading={loading}>
               <Dashboard user={user} />
             </ProtectedRoute>
           } 
@@ -51,13 +65,16 @@ export default function App() {
         <Route
           path="/admin"
           element={
-            user?.email === "appdroidplus7@gmail.com" ? (
-              <AdminDashboard user={user}/>
-            ) : (
-              <div className="p-6">Not authorized</div>
-            )
+            <ProtectedRoute user={user} loading={loading}>
+              {user?.email === "appdroidplus7@gmail.com" ? (
+                <AdminDashboard user={user}/>
+              ) : (
+                <div className="p-6">Not authorized</div>
+              )}
+            </ProtectedRoute>
           }
         />
+
         <Route
           path="/my-contributions"
           element={<MyContributions user={user} />}
