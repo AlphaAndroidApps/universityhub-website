@@ -49,6 +49,8 @@ export async function approveRequest(taskId, user) {
 
   await updateDoc(ref, {
     assignedTo: user.uid,
+    assignedName: user.displayName || user.email,
+    assignedPhoto: user.photoURL || null,
     status: "in_progress",
     requests: []
   });

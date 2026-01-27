@@ -8,16 +8,14 @@ const ADMIN_EMAIL = "appdroidplus7@gmail.com";
 const ITEMS_PER_PAGE = 10;
 
 export default function Tasks({ user }) {
-  if (!user || !user.uid) {
-    return; 
+  if (user === undefined) {
+    return <div className="p-6">Checking session...</div>;
   }
+
   if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-2xl">
-        Please login to see tasks
-      </div>
-    );
+    return <div className="p-6">Please login</div>;
   }
+
 
   const [tasks, setTasks] = useState([]);
   const [showForm, setShowForm] = useState(false);

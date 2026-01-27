@@ -57,6 +57,28 @@ export default function TaskCard({ task, user }) {
           {task.points}
         </span>
       </div>
+{/* ASSIGNED USER DISPLAY */}
+{task.assignedTo && (
+  <div className="flex items-center gap-3 mt-4 bg-indigo-50 p-3 rounded-lg">
+    {task.assignedPhoto ? (
+      <img
+        src={task.assignedPhoto}
+        className="w-10 h-10 rounded-full object-cover border"
+      />
+    ) : (
+      <div className="w-10 h-10 rounded-full bg-indigo-200 flex items-center justify-center font-bold text-indigo-700">
+        {task.assignedName?.[0]}
+      </div>
+    )}
+
+    <div>
+      <p className="text-sm font-semibold">Assigned to</p>
+      <p className="text-sm text-gray-600">
+        {task.assignedName}
+      </p>
+    </div>
+  </div>
+)}
 
       <div className="flex justify-between items-center mt-4">
         <span className="text-sm text-gray-500">
