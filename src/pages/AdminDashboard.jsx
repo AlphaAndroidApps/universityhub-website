@@ -1,115 +1,73 @@
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  updateDoc,
-  doc
-} from "firebase/firestore";
-import { db } from "../firebase/firebase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import CertificateTemplate from "./CertificateTemplate";
+import { downloadCertificatePNG } from "../services/useCertificateDownload";
 
-export default function AdminDashboard({ user }) {
-  if (user === undefined) {
-    return <div className="p-6">Checking session...</div>;
-  }
+export default function AdminCertificates({ user }) {
+  if (user === undefined) return <div className="p-6">Checking session...</div>;
+  if (!user) return <div className="p-6">Please login</div>;
+  if (user.email !== "appdroidplus7@gmail.com")
+    return <div className="p-6">Access denied</div>;
 
-  if (!user) {
-    return <div className="p-6">Please login</div>;
-  }
-  const [subs, setSubs] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchPending() {
-      const q = query(
-        collection(db, "submissions"),
-        where("status", "==", "pending")
-      );
-      const snap = await getDocs(q);
-      setSubs(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-      setLoading(false);
-    }
-    fetchPending();
-  }, []);
-
-  const updateStatus = async (id, status, feedback) => {
-    await updateDoc(doc(db, "submissions", id), {
-      status,
-      reviewComment: feedback || ""
-    });
-
-    // remove from UI
-    setSubs(subs.filter(s => s.id !== id));
-  };
-
-  if (loading) return <div className="p-6">Loading...</div>;
+  const [data, setData] = useState({
+    name: "",
+    task: "",
+    level: "Elite Contributor",
+    contributions: "",
+    id: `UH-${new Date().getFullYear()}-${Math.random()
+      .toString(36)
+      .substring(2, 7)
+      .toUpperCase()}`
+  });
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-4">
-      <h2 className="text-2xl font-bold">
-        Admin Review Panel
-      </h2>
+    <div className="flex gap-6 p-6">
+      {/* FORM */}
+      <div className="w-1/3 space-y-3">
+        <h2 className="text-xl font-bold">Issue Certificate</h2>
 
-      {subs.length === 0 && (
-        <p className="text-gray-500">
-          No pending submissions 🎉
-        </p>
-      )}
-
-      {subs.map(s => (
-        <ReviewCard
-          key={s.id}
-          sub={s}
-          onUpdate={updateStatus}
+        <input
+          className="border p-2 w-full"
+          placeholder="Student Name"
+          onChange={e => setData({ ...data, name: e.target.value })}
         />
-      ))}
-    </div>
-  );
-}
 
-function ReviewCard({ sub, onUpdate }) {
-  const [feedback, setFeedback] = useState("");
+        <input
+          className="border p-2 w-full"
+          placeholder="Task / Project"
+          onChange={e => setData({ ...data, task: e.target.value })}
+        />
 
-  return (
-    <div className="border p-4 rounded-xl space-y-2">
-      <p className="font-semibold">{sub.taskTitle}</p>
-      <p className="text-sm text-gray-500">
-        By: {sub.userName}
-      </p>
-      <p className="text-sm">
-        Time spent: {sub.timeSpent} hrs
-      </p>
+        <input
+          className="border p-2 w-full"
+          placeholder="Contributions"
+          onChange={e =>
+            setData({ ...data, contributions: e.target.value })
+          }
+        />
 
-      <a
-        href={sub.url}
-        target="_blank"
-        className="text-indigo-600 text-sm"
-      >
-        View submission →
-      </a>
-
-      <textarea
-        placeholder="Feedback to user (optional)"
-        value={feedback}
-        onChange={e => setFeedback(e.target.value)}
-        rows={2}
-        className="w-full p-2 border rounded-lg mt-2"
-      />
-
-      <div className="flex gap-2 mt-2">
-        <button
-          onClick={() => onUpdate(sub.id, "approved", feedback)}
-          className="bg-green-600 text-white px-3 py-1 rounded"
+        <select
+          className="border p-2 w-full"
+          onChange={e => setData({ ...data, level: e.target.value })}
         >
-          Approve
-        </button>
+          <option>Elite Contributor</option>
+          <option>Core Contributor</option>
+          <option>Verified Builder</option>
+          <option>Top 5% Performer</option>
+        </select>
+
         <button
-          onClick={() => onUpdate(sub.id, "rejected", feedback)}
-          className="bg-red-600 text-white px-3 py-1 rounded"
+          onClick={() =>
+            downloadCertificatePNG(`UniversityHub_${data.name}`)
+          }
+          className="bg-black text-white px-4 py-2 w-full"
         >
-          Reject
+          Download as PNG
         </button>
+      </div>
+
+      {/* CERTIFICATE PREVIEW */}
+      <div className="w-2/3 flex justify-center">
+        <CertificateTemplate data={data} />
       </div>
     </div>
   );

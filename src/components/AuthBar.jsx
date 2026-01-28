@@ -1,10 +1,12 @@
 import { login, logout } from "../auth/auth";
 import logo from "../assets/uh-logo.png";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthBar({ user }) {
   // 1. Handle the "loading" state (undefined)
   // This prevents the "Login" button from flashing briefly before the user profile appears
   const isLoading = user === undefined;
+  const navigate = useNavigate(); // ✅ inside component
 
   return (
     <div className="w-full bg-white/70 backdrop-blur border-b">
@@ -21,10 +23,11 @@ export default function AuthBar({ user }) {
           ) : user ? (
             <>
               <img
-                src={user.photoURL || "/default-avatar.png"} // Fallback image
-                alt="avatar"
-                className="w-8 h-8 rounded-full border"
-              />
+  src={user.photoURL || "/default-avatar.png"}
+  alt="avatar"
+  onClick={() => navigate("/me")}
+  className="w-8 h-8 rounded-full border cursor-pointer hover:opacity-90"
+/>
               <span className="text-sm font-medium hidden sm:inline">
                 {user.displayName}
               </span>

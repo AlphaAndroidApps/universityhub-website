@@ -62,10 +62,10 @@ export default function UserProfile() {
         </div>
 
         {/* ID Details */}
-        <div className="grid grid-cols-2 gap-3 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           {user.email && <Field label="Email" value={user.email} />}
-          {user.registrationNumber && (
-            <Field label="Reg No" value={user.registrationNumber} />
+          {user.branch && (
+            <Field label="Branch" value={user.branch} />
           )}
           {user.fromYear && <Field label="From" value={user.fromYear} />}
           {user.toYear && <Field label="To" value={user.toYear} />}
@@ -73,7 +73,7 @@ export default function UserProfile() {
 
         {/* Social Links */}
         <div className="flex gap-3 mt-4 flex-wrap">
-          {user.linkedin && <Badge label="LinkedIn" url={user.linkedin} />}
+          {user.linkedIn && <Badge label="LinkedIn" url={user.linkedIn} />}
           {user.instagram && <Badge label="Instagram" url={user.instagram} />}
           {user.twitter && <Badge label="Twitter" url={user.twitter} />}
         </div>

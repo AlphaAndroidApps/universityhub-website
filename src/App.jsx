@@ -13,6 +13,8 @@ import MyContributions from "./pages/MyContributions";
 import AdminCertificates from "./pages/AdminCertificates";
 import LeaderboardMaterials from "./pages/LeaderboardMaterials";
 import UserProfile from "./pages/UserProfile";
+import MyProfile from "./pages/MyProfile";
+
 
 
 // A small helper for protected routes
@@ -115,6 +117,16 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+  path="/me"
+  element={
+    <ProtectedRoute user={user} loading={loading}>
+      <MyProfile />
+    </ProtectedRoute>
+  }
+/>
+
 
       </Routes>
     </HashRouter>

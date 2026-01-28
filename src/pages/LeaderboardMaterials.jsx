@@ -4,13 +4,35 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
+import CertificateTemplate from "./CertificateTemplate";
+import { downloadCertificatePNG } from "../services/useCertificateDownload";
 
 
 export default function Leaderboard() {
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [certUser, setCertUser] = useState(null);
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
+  const podiumOrder = [1, 0, 2];
+
+  const handleCertificateDownload = async (u) => {
+  setCertUser(u);
+
+  setTimeout(async () => {
+    await downloadCertificatePNG(`UniversityHub_${u.name}`);
+    setCertUser(null);
+  }, 300);
+};
+
+const canDownloadCertificate = (u) => {
+  if (!user) return false;
+
+  return (
+    u.id === user.uid ||
+    (u.email && user.email && u.email === user.email)
+  );
+};
 
 
   const toTitleCase = (str = "") =>
@@ -61,31 +83,40 @@ export default function Leaderboard() {
       )}
 
       {/* Top 3 podium */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        {leaders.slice(0, 3).map((u, i) => (
-          <div
-            key={u.id}
-            onClick={() => navigate(`/profile/${u.id}`)}
-            className={`rounded-xl p-4 text-center shadow-lg
-              ${i === 0 && "bg-gradient-to-r from-yellow-300 to-yellow-500"}
-              ${i === 1 && "bg-gradient-to-r from-gray-200 to-gray-300"}
-              ${i === 2 && "bg-gradient-to-r from-orange-300 to-orange-400"}
-              cursor-pointer hover:bg-gray-50 hover:shadow-md 
-             transition
-            `}
-          >
-            <div className="text-2xl mb-1">
-              {i === 0 && "🥇"}
-              {i === 1 && "🥈"}
-              {i === 2 && "🥉"}
-            </div>
-            <div className="font-bold">{toTitleCase(u.name)}</div>
-            <div className="text-sm">
-              {u.contributions} uploads
-            </div>
-          </div>
-        ))}
+<div className="grid grid-cols-3 gap-4 mb-8">
+  {[1, 0, 2].map((index) => {
+    const u = leaders[index];
+    if (!u) return null;
+
+    return (
+      <div
+        key={u.id}
+        onClick={() => navigate(`/profile/${u.id}`)}
+        className={`rounded-xl p-4 text-center shadow-lg
+          ${index === 0 && "bg-gradient-to-r from-yellow-300 to-yellow-500"}
+          ${index === 1 && "bg-gradient-to-r from-gray-200 to-gray-300"}
+          ${index === 2 && "bg-gradient-to-r from-orange-300 to-orange-400"}
+          cursor-pointer hover:bg-gray-50 hover:shadow-md transition
+        `}
+      >
+        <div className="text-2xl mb-1">
+          {index === 0 && "🥇"}
+          {index === 1 && "🥈"}
+          {index === 2 && "🥉"}
+        </div>
+
+        <div className="font-bold">
+          {toTitleCase(u.name)}
+        </div>
+
+        <div className="text-sm">
+          {u.contributions} uploads
+        </div>
       </div>
+    );
+  })}
+</div>
+
 
       {/* Full list */}
       <div className="space-y-3">
@@ -120,6 +151,20 @@ export default function Leaderboard() {
             <span className="font-bold text-indigo-600">
               {u.contributions}
             </span>
+            {u.contributions >= 50 &&  (
+
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        handleCertificateDownload(u);
+      }}
+      className="text-xs px-3 py-1 rounded-full
+                 bg-indigo-600 text-white
+                 hover:bg-indigo-700 transition"
+    >
+      🎓 Certificate
+    </button>
+  )}
             </div>
             
           </div>
@@ -147,6 +192,22 @@ export default function Leaderboard() {
 </div>
 
       </div>
+      {certUser && (
+  <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+    <CertificateTemplate
+      data={{
+        name: certUser.name,
+        task: "Academic Content on University Hub",
+        level: "Elite Contributor",
+        contributions: certUser.contributions,
+        id: `UH-${new Date().getFullYear()}-${certUser.id
+          .slice(0, 5)
+          .toUpperCase()}`
+      }}
+    />
+  </div>
+)}
+
     </div>
   );
 }
