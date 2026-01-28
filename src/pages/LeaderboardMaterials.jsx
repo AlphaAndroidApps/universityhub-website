@@ -151,7 +151,7 @@ const canDownloadCertificate = (u) => {
             <span className="font-bold text-indigo-600">
               {u.contributions}
             </span>
-            {u.contributions >= 50 &&  (
+            {u.contributions >= 50 && canDownloadCertificate(u) && (
 
     <button
       onClick={(e) => {
