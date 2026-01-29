@@ -45,12 +45,19 @@ export default function Landing() {
   >
     Become a Contributor
   </a>
-            <a
-              href="#features"
-              className="border border-gray-300 px-6 py-3 rounded-lg"
-            >
-              Learn more
-            </a>
+            <button
+  onClick={() => {
+    const el = document.getElementById("features");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  }}
+  className="border border-gray-300 px-6 py-3 rounded-lg"
+>
+  Learn more
+</button>
+
+
           </div>
 
           <p className="text-sm text-gray-500 mt-4">
