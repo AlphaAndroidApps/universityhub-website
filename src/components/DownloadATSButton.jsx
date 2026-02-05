@@ -1,5 +1,4 @@
 export default function PrintResumeButton() {
-
   const isMobile = () =>
     /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
@@ -28,14 +27,13 @@ export default function PrintResumeButton() {
     const resume = document.getElementById("resume-print");
     if (!resume) return;
 
-    // 🚫 Mobile: stop auto-print (prevents "Preparing preview..." freeze)
+    // 📱 MOBILE → open full-page preview (NO auto-print)
     if (isMobile()) {
-      alert(
-        "On mobile, tap the browser menu (⋮ or Share) → Print or Save as PDF."
-      );
+      window.location.href = "/print-preview";
       return;
     }
 
+    // 🖥 DESKTOP → auto print
     const clonedResume = cloneWithInlineStyles(resume);
     const printWindow = window.open("", "_blank", "width=900,height=1200");
 
@@ -59,13 +57,6 @@ export default function PrintResumeButton() {
               box-sizing: border-box;
               height: auto;
               overflow: visible;
-            }
-
-            .skill-pill {
-              display: inline-block;
-              break-inside: avoid;
-              page-break-inside: avoid;
-              margin: 0 6px 6px 0;
             }
           </style>
         </head>
