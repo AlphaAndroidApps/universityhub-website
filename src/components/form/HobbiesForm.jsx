@@ -14,7 +14,7 @@ export default function HobbiesForm() {
 
   return (
     <div className="mb-6">
-      <h2 className="font-semibold mb-3">Hobbies (Optional)</h2>
+      <h2 className="font-semibold mb-3">Hobbies</h2>
 
       <div className="flex gap-2">
         <input
