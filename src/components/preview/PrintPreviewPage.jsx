@@ -1,4 +1,4 @@
-import ResumePreview from "../components/preview/ResumePreview";
+import ResumePreview from "./ResumePreview";
 
 export default function PrintPreviewPage() {
   return (
