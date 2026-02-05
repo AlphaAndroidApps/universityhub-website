@@ -35,26 +35,44 @@ export default function PrintResumeButton() {
         margin: 0,
         filename: "Resume.pdf",
         image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#ffffff",
+          onclone: (doc) => {
+            const style = doc.createElement("style");
+            style.textContent = `
+              * { color: #000 !important; background: #fff !important; border-color: #999 !important; }
+            `;
+            doc.head.appendChild(style);
+          }
+        },
         jsPDF: { unit: "pt", format: "a4", orientation: "portrait" }
       };
 
       const isIOS =
         /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-      if (isIOS) {
-        const newWindow = window.open("", "_blank");
-        const blob = await html2pdf().set(options).from(resume).outputPdf("blob");
-        const blobUrl = URL.createObjectURL(blob);
-        if (newWindow) {
-          newWindow.location = blobUrl;
-        } else {
-          window.location.href = blobUrl;
+      try {
+        if (isIOS) {
+          const newWindow = window.open("", "_blank");
+          const blob = await html2pdf()
+            .set(options)
+            .from(resume)
+            .outputPdf("blob");
+          const blobUrl = URL.createObjectURL(blob);
+          if (newWindow) {
+            newWindow.location = blobUrl;
+          } else {
+            window.location.href = blobUrl;
+          }
+          return;
         }
-        return;
-      }
 
-      await html2pdf().set(options).from(resume).save();
+        await html2pdf().set(options).from(resume).save();
+      } catch (error) {
+        console.error("Mobile PDF download failed:", error);
+      }
       return;
     }
 

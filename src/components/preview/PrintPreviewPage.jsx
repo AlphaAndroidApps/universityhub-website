@@ -10,7 +10,18 @@ export default function PrintPreviewPage() {
       margin: 0,
       filename: "Resume.pdf",
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        onclone: (doc) => {
+          const style = doc.createElement("style");
+          style.textContent = `
+            * { color: #000 !important; background: #fff !important; border-color: #999 !important; }
+          `;
+          doc.head.appendChild(style);
+        }
+      },
       jsPDF: { unit: "pt", format: "a4", orientation: "portrait" }
     };
 
