@@ -27,9 +27,9 @@ export default function PrintResumeButton() {
     const resume = document.getElementById("resume-print");
     if (!resume) return;
 
-    // 📱 MOBILE → open full-page preview (NO auto-print)
+    // 📱 MOBILE → open hash preview page
     if (isMobile()) {
-      window.location.href = "/print-preview";
+      window.location.hash = "#/print-preview";
       return;
     }
 

@@ -1,5 +1,5 @@
-import ResumePreview
- from "./ResumePreview";
+import ResumePreview from "../components/preview/ResumePreview";
+
 export default function PrintPreviewPage() {
   return (
     <div className="bg-white min-h-screen flex justify-center py-4">
@@ -7,7 +7,6 @@ export default function PrintPreviewPage() {
         <ResumePreview />
       </div>
 
-      {/* Optional helper text */}
       <div className="fixed bottom-3 left-0 right-0 text-center text-xs text-gray-500">
         Use browser menu (⋮ / Share) → Print or Save as PDF
       </div>
