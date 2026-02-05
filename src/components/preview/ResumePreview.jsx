@@ -5,7 +5,7 @@ export default function ResumePreview() {
   const resume = useResumeStore((s) => s.resume);
 
   return (
-    <div id="resume-print">
+    <div>
       <TemplateOne data={resume} />
     </div>
   );
