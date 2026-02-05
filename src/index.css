@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===============================
+   Global styles (existing)
+================================ */
 button {
   cursor: pointer;
 }
@@ -33,4 +36,51 @@ button {
   border-left: 4px solid #22c55e;
   background: #f0fdf4;
   border-radius: 8px;
+}
+
+/* ===============================
+   Resume Builder helpers (NEW)
+================================ */
+.input {
+  @apply w-full mb-2 p-2 border border-gray-300 rounded text-sm
+         focus:outline-none focus:ring-2 focus:ring-indigo-500;
+}
+
+.btn {
+  @apply px-3 py-1 bg-black text-white rounded text-sm
+         hover:bg-gray-800 transition;
+}
+
+.section {
+  @apply mt-4 font-semibold text-base;
+}
+
+.pdf-safe * {
+  color: #000 !important;
+  background: #fff !important;
+  border-color: #999 !important;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 40px 0;
+  }
+
+  .resume-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  h2 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  p, li {
+    break-inside: auto;
+  }
+  ul {
+    break-inside: avoid;
+  }
 }

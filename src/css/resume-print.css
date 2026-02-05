@@ -1,0 +1,33 @@
+/* resume-print.css */
+#resume {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.25;
+  color: #000;
+}
+
+/* headings */
+#resume h1 {
+  font-size: 18px;
+  margin: 0 0 6px;
+}
+
+#resume h2 {
+  font-size: 13px;
+  margin: 10px 0 4px;
+  border-bottom: 1px solid #000;
+}
+
+/* text */
+#resume p {
+  margin: 0 0 4px;
+}
+
+#resume ul {
+  margin: 0;
+  padding-left: 14px;
+}
+
+#resume li {
+  margin-bottom: 3px;
+}

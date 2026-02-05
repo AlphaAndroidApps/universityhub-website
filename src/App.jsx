@@ -14,6 +14,7 @@ import AdminCertificates from "./pages/AdminCertificates";
 import LeaderboardMaterials from "./pages/LeaderboardMaterials";
 import UserProfile from "./pages/UserProfile";
 import MyProfile from "./pages/MyProfile";
+import ResumeMaker from "./pages/ResumeMaker";
 
 
 
@@ -56,6 +57,8 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Landing />} />
+          <Route path="/resume-maker" element={<ResumeMaker />} />
+
         <Route path="/tasks" element={<Tasks user={user} />} />
         <Route path="/tasks/:taskId" element={<TaskDetails user={user} />} />
         {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
