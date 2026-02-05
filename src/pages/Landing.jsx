@@ -19,7 +19,7 @@ export default function Landing() {
       </nav> */}
 
       {/* HERO */}
-      <section className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
         <div>
           <h2 className="text-5xl font-bold mb-6 leading-tight">
             The all-in-one app for<br />
@@ -32,16 +32,16 @@ export default function Landing() {
             everything in one place for engineering & pharmacy students.
           </p>
 
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4">
             <a
               href="https://play.google.com/store/apps/details?id=com.ku.engineering"
-              className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold"
+              className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold w-full sm:w-auto text-center"
             >
               Download App
             </a>
             <a
     href="#/dashboard"
-    className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold"
+    className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold w-full sm:w-auto text-center"
   >
     Become a Contributor
   </a>
@@ -52,7 +52,7 @@ export default function Landing() {
       el.scrollIntoView({ behavior: "smooth" });
     }
   }}
-  className="border border-gray-300 px-6 py-3 rounded-lg"
+  className="border border-gray-300 px-6 py-3 rounded-lg w-full sm:w-auto"
 >
   Learn more
 </button>
@@ -65,7 +65,7 @@ export default function Landing() {
           </p>
         </div>
 
-        <div className="relative mx-auto w-[360px]">
+        <div className="relative mx-auto w-full max-w-[360px]">
   <div className="absolute -inset-1 bg-indigo-500 rounded-[42px] blur opacity-30"></div>
   <div className="relative bg-black p-2 rounded-[40px]">
     <img
