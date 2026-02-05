@@ -1,7 +1,8 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase/firebase";
 import AuthBar from "./components/AuthBar";
+import { useEffect, useState } from "react";
 
 import Landing from "./pages/Landing";
 import Tasks from "./pages/Tasks";
@@ -19,14 +20,25 @@ import PrintPreviewPage from "./components/preview/PrintPreviewPage";
 
 
 
+const FullscreenLoader = ({ label = "Loading" }) => (
+  <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex items-center gap-2">
+        <span className="h-3 w-3 rounded-full bg-indigo-600 animate-bounce" />
+        <span className="h-3 w-3 rounded-full bg-indigo-500 animate-bounce [animation-delay:120ms]" />
+        <span className="h-3 w-3 rounded-full bg-indigo-400 animate-bounce [animation-delay:240ms]" />
+      </div>
+      <span className="text-sm font-semibold text-slate-700">
+        {label}
+      </span>
+    </div>
+  </div>
+);
+
 // A small helper for protected routes
 const ProtectedRoute = ({ user, loading, children }) => {
   if (loading) {
-    return (
-      <div className="p-10 text-center">
-        Checking session...
-      </div>
-    );
+    return <FullscreenLoader label="Checking session" />;
   }
 
   if (!user) {
@@ -40,21 +52,42 @@ const ProtectedRoute = ({ user, loading, children }) => {
   return children;
 };
 
+const RouteLoadingOverlay = () => {
+  const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 250);
+    return () => clearTimeout(timer);
+  }, [location.pathname, location.search, location.hash]);
+
+  if (!isLoading) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-white/70 backdrop-blur-sm flex items-center justify-center">
+      <div className="flex items-center gap-3 rounded-full bg-white px-5 py-3 shadow-lg">
+        <span className="h-3 w-3 rounded-full bg-indigo-600 animate-pulse" />
+        <span className="text-sm font-semibold text-slate-700">
+          Loading...
+        </span>
+      </div>
+    </div>
+  );
+};
+
 
 export default function App() {
   const [user, loading] = useAuthState(auth);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-xl">
-        Loading...
-      </div>
-    );
+    return <FullscreenLoader label="Loading" />;
   }
 
   return (
     <HashRouter>
       <AuthBar user={user} />
+      <RouteLoadingOverlay />
 
       <Routes>
         <Route path="/" element={<Landing />} />

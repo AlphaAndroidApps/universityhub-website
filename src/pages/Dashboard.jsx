@@ -2,14 +2,28 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import { resignTask } from "../services/tasks";
+import MyTasksPanel from "../components/MyTasksPanel";
 
 const ADMIN_EMAIL = "appdroidplus7@gmail.com"; // change if needed
 
 export default function Dashboard({ user }) {
+  const Loader = ({ label }) => (
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex items-center gap-2">
+          <span className="h-3 w-3 rounded-full bg-indigo-600 animate-bounce" />
+          <span className="h-3 w-3 rounded-full bg-indigo-500 animate-bounce [animation-delay:120ms]" />
+          <span className="h-3 w-3 rounded-full bg-indigo-400 animate-bounce [animation-delay:240ms]" />
+        </div>
+        <span className="text-sm font-semibold text-slate-700">
+          {label}
+        </span>
+      </div>
+    </div>
+  );
+
   if (user === undefined) {
-    return <div className="p-6">Checking session...</div>;
+    return <Loader label="Checking session" />;
   }
 
   if (!user) {
@@ -18,6 +32,7 @@ export default function Dashboard({ user }) {
 
   const [assigned, setAssigned] = useState([]);
   const [subs, setSubs] = useState([]);
+  const [requestedCount, setRequestedCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const isAdmin = user?.email === ADMIN_EMAIL;
@@ -46,26 +61,23 @@ export default function Dashboard({ user }) {
       const sSnap = await getDocs(sq);
       setSubs(sSnap.docs.map(d => d.data()));
 
+      const allTasksSnap = await getDocs(collection(db, "tasks"));
+      const requested = allTasksSnap.docs.filter((d) => {
+        const data = d.data();
+        return data.requests?.some((r) => r.uid === user.uid);
+      }).length;
+      setRequestedCount(requested);
+
       setLoading(false);
     }
 
     fetchAll();
   }, [user]);
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading) return <Loader label="Loading" />;
 
   const approved = subs.filter(s => s.status === "approved").length;
   const pending = subs.filter(s => s.status === "under_review").length;
-
-    const handleResign = async (taskId) => {
-    const ok = confirm("Are you sure you want to resign from this task?");
-    if (!ok) return;
-
-    await resignTask(taskId, user.uid);
-    alert("You have resigned from the task.");
-
-    setAssigned(prev => prev.filter(t => t.id !== taskId));
-    };
 
 
     function NavButton({ to, label }) {
@@ -85,64 +97,30 @@ export default function Dashboard({ user }) {
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
-      <h2 className="text-2xl font-bold">My Dashboard</h2>
+      {/* <h2 className="text-2xl font-bold">My Dashboard</h2> */}
 
       {/* NAV OPTIONS */}
-      <div className="flex gap-3 flex-wrap">
+      {/* <div className="flex gap-3 flex-wrap">
         <NavButton to="/tasks" label="All Tasks" />
-        <NavButton to="/my-contributions" label="My Contributions" />
         {isAdmin && <NavButton to="/admin" label="Admin" />}
-    </div>
+    </div> */}
 
 
-      {/* STATS */}
-      <div className="grid grid-cols-4 gap-4">
-        <Stat label="Assigned" value={assigned.length} />
-        <Stat label="Submitted" value={subs.length} color="yellow" />
-        <Stat label="Under Review" value={pending} color="green" />
-        <Stat label="Approved" value={approved} />
-        
-      </div>
+      {/* STATS REMOVED */}
 
-      {/* ASSIGNED TASKS */}
-      <div>
-        <h3 className="font-semibold mb-3">Assigned to me</h3>
-        {assigned.length === 0 ? (
-          <p className="text-gray-500">No active tasks.</p>
-        ) : (
-          assigned.map(t => (
-            <div key={t.id} className="border p-4 rounded-xl mb-2">
-              <p className="font-medium">{t.title}</p>
-              {t.preview && (
-                <p className="text-sm text-gray-600 mt-1">
-                    {t.preview}
-                </p>
-                )}
-              <p className="text-sm text-gray-500">
-                Due: {t.deadline || "No deadline"}
-              </p>
-              <div className="flex gap-3 mt-3">
-  <Link to={`/tasks/${t.id}`}>
-    <button className="bg-indigo-500/90 text-white px-4 py-2 rounded-lg 
-                       hover:bg-indigo-600 transition text-sm">
-      Open
-    </button>
-  </Link>
-
-  <button
-    onClick={() => handleResign(t.id)}
-    className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg 
-               hover:bg-red-100 hover:text-red-600 
-               transition text-sm"
-  >
-    Resign
-  </button>
-</div>
-
-
+      {/* MY TASKS */}
+      <div className="bg-white/80 backdrop-blur rounded-2xl p-5 border">
+        <MyTasksPanel
+          user={user}
+          userId={user.uid}
+          title=""
+          headerActions={
+            <div className="flex items-center gap-2 text-sm">
+              <NavButton to="/tasks" label="All Tasks" />
+              {isAdmin && <NavButton to="/admin" label="Admin" />}
             </div>
-          ))
-        )}
+          }
+        />
       </div>
 
       {/* SUBMISSIONS */}
@@ -157,22 +135,6 @@ export default function Dashboard({ user }) {
           </div>
         ))}
       </div> */}
-    </div>
-  );
-}
-
-function Stat({ label, value, color }) {
-  const colors = {
-    green: "bg-green-100 text-green-700",
-    yellow: "bg-yellow-100 text-yellow-700",
-    darkGreen: "bg-green-200 text-green-900",
-
-  };
-
-  return (
-    <div className={`p-4 rounded-xl ${colors[color] || "bg-gray-100"}`}>
-      <p className="text-sm">{label}</p>
-      <p className="text-2xl font-bold">{value}</p>
     </div>
   );
 }

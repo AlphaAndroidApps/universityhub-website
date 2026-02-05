@@ -80,12 +80,12 @@ export default function TaskCard({ task, user }) {
   </div>
 )}
 
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-4">
         <span className="text-sm text-gray-500">
           Status: {task.status}
         </span>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
 
           {/* USER: REQUEST */}
           {user && task.assignedTo === null  && (
@@ -96,7 +96,7 @@ export default function TaskCard({ task, user }) {
             ) : (
               <button
                 onClick={handleRequest}
-                className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600"
+                className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 w-full sm:w-auto"
               >
                 Request Assignment  
               </button>
@@ -107,7 +107,7 @@ export default function TaskCard({ task, user }) {
           {user && task.assignedTo === user.uid && task.status === "in_progress" && (
             <button
               onClick={handleResign}
-              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full sm:w-auto"
             >
               Resign from Assignment
             </button>
@@ -117,7 +117,7 @@ export default function TaskCard({ task, user }) {
           {isAdmin && (
             <button
               onClick={handleDelete}
-              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 w-full sm:w-auto"
             >
               Delete
             </button>

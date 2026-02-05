@@ -44,40 +44,68 @@ export default function SubmitWork({ task, user, onSubmitted }) {
   };
 
   return (
-    <div className="mt-8 p-4 border rounded-xl bg-gray-50 space-y-3">
-      <h3 className="font-semibold">Submit your work</h3>
+    <div className="space-y-4">
+      <div className="rounded-2xl border bg-white p-4 sm:p-5">
+        <div className="flex items-center justify-between gap-3">
+          <h3 className="font-semibold text-lg">Submit your work</h3>
+          <span className="text-xs px-2 py-1 rounded-full bg-indigo-50 text-indigo-700">
+            Task: {task.title}
+          </span>
+        </div>
+        <p className="text-sm text-gray-500 mt-1">
+          Share a link to your work and any notes for the reviewer.
+        </p>
+      </div>
 
-      <input
-        type="text"
-        placeholder="Submission link (GitHub / Drive / Figma)"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        className="w-full p-2 border rounded-lg"
-      />
+      <div className="space-y-3 rounded-2xl border bg-gray-50 p-4 sm:p-5">
+        <label className="block text-sm font-medium text-gray-700">
+          Submission link
+          <input
+            type="url"
+            placeholder="GitHub / Drive / Figma link"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            className="mt-1 w-full p-2.5 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </label>
 
-      <textarea
-        placeholder="Comments for reviewer (what you did, notes, etc.)"
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-        rows={3}
-        className="w-full p-2 border rounded-lg"
-      />
+        <label className="block text-sm font-medium text-gray-700">
+          Comments for reviewer
+          <textarea
+            placeholder="What you did, notes, blockers, etc."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            rows={4}
+            className="mt-1 w-full p-2.5 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </label>
 
-      <input
-        type="number"
-        placeholder="Time spent (hours)"
-        value={timeSpent}
-        onChange={(e) => setTimeSpent(e.target.value)}
-        className="w-full p-2 border rounded-lg"
-      />
+        <label className="block text-sm font-medium text-gray-700">
+          Time spent (hours)
+          <input
+            type="number"
+            min="0"
+            step="0.5"
+            placeholder="e.g. 2.5"
+            value={timeSpent}
+            onChange={(e) => setTimeSpent(e.target.value)}
+            className="mt-1 w-full p-2.5 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </label>
 
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 w-full"
-      >
-        {loading ? "Submitting..." : "Submit work"}
-      </button>
+        <div className="flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between pt-2">
+          <span className="text-xs text-gray-500">
+            Submitting will move the task to review.
+          </span>
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 w-full sm:w-auto disabled:opacity-60"
+          >
+            {loading ? "Submitting..." : "Submit work"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

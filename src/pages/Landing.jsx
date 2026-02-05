@@ -1,7 +1,49 @@
 import "../index.css";
-import preview from "../assets/app-preview.jpg";
+import preview1 from "../assets/preview1.jpg";
+import preview2 from "../assets/preview2.jpg";
+import preview3 from "../assets/preview3.jpg";
+import preview4 from "../assets/preview4.jpg";
+import preview5 from "../assets/preview5.jpg";
+import { useEffect, useState } from "react";
 
 export default function Landing() {
+  const images = [preview1, preview2, preview3, preview4, preview5];
+  const [current, setCurrent] = useState(0);
+  const [isFading, setIsFading] = useState(false);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIsFading(true);
+      setTimeout(() => {
+        setCurrent((c) => (c + 1) % images.length);
+        setIsFading(false);
+      }, 250);
+    }, 3000);
+    return () => clearInterval(id);
+  }, [images.length]);
+
+  const goTo = (index) => {
+    setIsFading(true);
+    setTimeout(() => {
+      setCurrent(index);
+      setIsFading(false);
+    }, 200);
+  };
+  const prev = () => {
+    setIsFading(true);
+    setTimeout(() => {
+      setCurrent((c) => (c - 1 + images.length) % images.length);
+      setIsFading(false);
+    }, 200);
+  };
+  const next = () => {
+    setIsFading(true);
+    setTimeout(() => {
+      setCurrent((c) => (c + 1) % images.length);
+      setIsFading(false);
+    }, 200);
+  };
+
   return (
     <div className="bg-slate-50 text-slate-900">
 
@@ -65,14 +107,47 @@ export default function Landing() {
           </p>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[360px]">
+        <div className="relative mx-auto w-full max-w-[300px] sm:max-w-[340px]">
   <div className="absolute -inset-1 bg-indigo-500 rounded-[42px] blur opacity-30"></div>
-  <div className="relative bg-black p-2 rounded-[40px]">
-    <img
-      src={preview}
-      className="rounded-[32px]"
-      alt="University Hub App"
-    />
+  <div className="relative bg-black p-2 rounded-[40px] overflow-hidden">
+    <div className="relative w-full">
+      <img
+        key={current}
+        src={images[current]}
+        className={`rounded-[32px] w-full object-cover block transition-opacity duration-300 ${
+          isFading ? "opacity-0" : "opacity-100"
+        }`}
+        alt={`University Hub App ${current + 1}`}
+      />
+    </div>
+
+    <button
+      onClick={prev}
+      className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-8 h-8 rounded-full flex items-center justify-center"
+      aria-label="Previous"
+    >
+      ‹
+    </button>
+    <button
+      onClick={next}
+      className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 w-8 h-8 rounded-full flex items-center justify-center"
+      aria-label="Next"
+    >
+      ›
+    </button>
+
+    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+      {images.map((_, idx) => (
+        <button
+          key={idx}
+          onClick={() => goTo(idx)}
+          className={`h-2 w-2 rounded-full ${
+            idx === current ? "bg-white" : "bg-white/50"
+          }`}
+          aria-label={`Go to slide ${idx + 1}`}
+        />
+      ))}
+    </div>
   </div>
 </div>
 
@@ -152,7 +227,7 @@ export default function Landing() {
 
       {/* FOOTER */}
       <footer className="py-8 text-center text-gray-500 text-sm">
-        © 2026 University Hub • support@universityhub.co.in
+        © 2026 University Hub • admin@universityhub.co.in
       </footer>
     </div>
   );

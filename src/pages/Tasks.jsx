@@ -42,16 +42,16 @@ export default function Tasks({ user }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-indigo-100">
-      <div className="max-w-5xl mx-auto p-8">
-        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-4 sm:p-8">
 
           {/* HEADER */}
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-2">
             <div>
-              <h2 className="text-4xl font-extrabold">
+              <h2 className="text-2xl sm:text-4xl font-extrabold">
                 Community Tasks
               </h2>
-              <p className="text-gray-500">
+              <p className="text-gray-500 text-sm sm:text-base">
                 Earn certifications by contributing to University Hub
               </p>
             </div>
@@ -59,7 +59,7 @@ export default function Tasks({ user }) {
             {user.email === ADMIN_EMAIL && (
               <button
                 onClick={() => setShowForm(true)}
-                className="bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition"
+                className="bg-indigo-600 text-white px-4 sm:px-5 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition w-full sm:w-auto"
               >
                 + Add Task
               </button>
@@ -93,11 +93,11 @@ export default function Tasks({ user }) {
 
           {/* PAGINATION */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-4 mt-8">
+            <div className="flex flex-wrap justify-center items-center gap-3 mt-8">
               <button
                 disabled={page === 1}
                 onClick={() => setPage(p => p - 1)}
-                className="px-4 py-2 rounded-lg bg-gray-200 disabled:opacity-50"
+                className="px-4 py-2 rounded-lg bg-gray-200 disabled:opacity-50 w-full sm:w-auto"
               >
                 Prev
               </button>
@@ -109,7 +109,7 @@ export default function Tasks({ user }) {
               <button
                 disabled={page === totalPages}
                 onClick={() => setPage(p => p + 1)}
-                className="px-4 py-2 rounded-lg bg-gray-200 disabled:opacity-50"
+                className="px-4 py-2 rounded-lg bg-gray-200 disabled:opacity-50 w-full sm:w-auto"
               >
                 Next
               </button>

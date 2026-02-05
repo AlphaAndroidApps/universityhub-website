@@ -11,6 +11,10 @@ button {
   cursor: pointer;
 }
 
+body {
+  background: #fff;
+}
+
 .task-section {
   margin-top: 16px;
 }
