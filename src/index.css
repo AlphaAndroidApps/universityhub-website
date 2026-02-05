@@ -62,6 +62,24 @@ button {
 }
 
 @media print {
+  /* Print only the resume preview */
+  body * {
+    visibility: hidden;
+  }
+
+  #resume-print,
+  #resume-print * {
+    visibility: visible;
+  }
+
+  #resume-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 794px;
+    margin: 0 auto;
+  }
+
   @page {
     size: A4;
     margin: 40px 0;

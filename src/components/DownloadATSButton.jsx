@@ -1,3 +1,5 @@
+import html2pdf from "html2pdf.js";
+
 export default function PrintResumeButton() {
   const isMobile = () =>
     /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -23,17 +25,40 @@ export default function PrintResumeButton() {
     return clone;
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     const resume = document.getElementById("resume-print");
     if (!resume) return;
 
-    // 📱 MOBILE → open hash preview page
+    // MOBILE -> generate PDF directly (no window.print)
     if (isMobile()) {
-      window.location.hash = "#/print-preview";
+      const options = {
+        margin: 0,
+        filename: "Resume.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+        jsPDF: { unit: "pt", format: "a4", orientation: "portrait" }
+      };
+
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+      if (isIOS) {
+        const newWindow = window.open("", "_blank");
+        const blob = await html2pdf().set(options).from(resume).outputPdf("blob");
+        const blobUrl = URL.createObjectURL(blob);
+        if (newWindow) {
+          newWindow.location = blobUrl;
+        } else {
+          window.location.href = blobUrl;
+        }
+        return;
+      }
+
+      await html2pdf().set(options).from(resume).save();
       return;
     }
 
-    // 🖥 DESKTOP → auto print
+    // DESKTOP -> auto print
     const clonedResume = cloneWithInlineStyles(resume);
     const printWindow = window.open("", "_blank", "width=900,height=1200");
 
