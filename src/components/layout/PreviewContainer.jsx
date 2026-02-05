@@ -23,7 +23,7 @@ export default function PreviewContainer() {
             lg:scale-100
           "
         >
-          <ResumePreview />
+          <ResumePreview containerId="resume-print" />
         </div>
 
       </div>

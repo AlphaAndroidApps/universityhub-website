@@ -2,7 +2,7 @@ import html2pdf from "html2pdf.js";
 import ResumePreview from "./ResumePreview";
 
 export default function PrintPreviewPage() {
-  const handlePrint = () => {
+  const handlePrint = async () => {
     const element = document.getElementById("resume-print");
     if (!element) return;
 
@@ -14,7 +14,31 @@ export default function PrintPreviewPage() {
       jsPDF: { unit: "pt", format: "a4", orientation: "portrait" }
     };
 
-    html2pdf().set(options).from(element).save();
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    try {
+      if (isIOS) {
+      // iOS Safari blocks direct downloads; open PDF in a new tab instead.
+        const newWindow = window.open("", "_blank");
+        const blob = await html2pdf()
+          .set(options)
+          .from(element)
+          .outputPdf("blob");
+        const blobUrl = URL.createObjectURL(blob);
+        if (newWindow) {
+          newWindow.location = blobUrl;
+        } else {
+          window.location.href = blobUrl;
+        }
+        return;
+      }
+
+      await html2pdf().set(options).from(element).save();
+    } catch (error) {
+      console.error("Resume PDF download failed:", error);
+      window.print();
+    }
   };
 
   return (

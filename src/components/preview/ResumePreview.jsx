@@ -1,11 +1,11 @@
 import { useResumeStore } from "../../store/resumeStore";
 import TemplateOne from "../../templates/TemplateOne";
 
-export default function ResumePreview() {
+export default function ResumePreview({ containerId }) {
   const resume = useResumeStore((s) => s.resume);
 
   return (
-    <div>
+    <div id={containerId || undefined}>
       <TemplateOne data={resume} />
     </div>
   );
