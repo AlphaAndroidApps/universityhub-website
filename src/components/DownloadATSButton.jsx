@@ -1,6 +1,8 @@
 export default function PrintResumeButton() {
 
-  // 🔥 Helper: clone node with computed styles (KEY PART)
+  const isMobile = () =>
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   const cloneWithInlineStyles = (node) => {
     const clone = node.cloneNode(true);
 
@@ -26,9 +28,15 @@ export default function PrintResumeButton() {
     const resume = document.getElementById("resume-print");
     if (!resume) return;
 
-    // Clone with exact on-screen styles
-    const clonedResume = cloneWithInlineStyles(resume);
+    // 🚫 Mobile: stop auto-print (prevents "Preparing preview..." freeze)
+    if (isMobile()) {
+      alert(
+        "On mobile, tap the browser menu (⋮ or Share) → Print or Save as PDF."
+      );
+      return;
+    }
 
+    const clonedResume = cloneWithInlineStyles(resume);
     const printWindow = window.open("", "_blank", "width=900,height=1200");
 
     printWindow.document.write(`
@@ -36,46 +44,30 @@ export default function PrintResumeButton() {
       <html>
         <head>
           <title>Resume</title>
+          <style>
+            @page { size: A4; margin: 0; }
 
-          <!-- Page setup -->
-         <style>
-  @page {
-    size: A4;
-    margin: 0;
-  }
+            html, body {
+              margin: 0;
+              padding: 0;
+              background: white;
+            }
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: white;
-  }
+            #resume {
+              width: 794px;
+              margin: 0 auto;
+              box-sizing: border-box;
+              height: auto;
+              overflow: visible;
+            }
 
-  #resume {
-    width: 794px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    height: auto;
-    overflow: visible;
-  }
-
-  /* Skills fix */
-  .skills-container {
-    break-inside: avoid-page;
-    page-break-inside: avoid;
-  }
-
-  .skill-pill {
-    display: inline-block !important;
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin: 0 0.375rem 0.375rem 0;  /* ≈ gap-3 / 4 */
-  }
-
-  /* Optional: force no split even if desperate */
-  .skills-container > * {
-    break-inside: avoid;
-  }
-</style>
+            .skill-pill {
+              display: inline-block;
+              break-inside: avoid;
+              page-break-inside: avoid;
+              margin: 0 6px 6px 0;
+            }
+          </style>
         </head>
 
         <body>
