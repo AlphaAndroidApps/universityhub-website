@@ -81,12 +81,6 @@ export default function Landing() {
             >
               Download App
             </a>
-            <a
-    href="#/dashboard"
-    className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold w-full sm:w-auto text-center"
-  >
-    Become a Contributor
-  </a>
             <button
   onClick={() => {
     const el = document.getElementById("features");
