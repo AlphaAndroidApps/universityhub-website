@@ -4,10 +4,12 @@ import preview2 from "../assets/preview2.jpg";
 import preview3 from "../assets/preview3.jpg";
 import preview4 from "../assets/preview4.jpg";
 import preview5 from "../assets/preview5.jpg";
+import preview6 from "../assets/preview6.jpg";
 import { useEffect, useState } from "react";
 
+const images = [preview1, preview2, preview3, preview4, preview5, preview6];
+
 export default function Landing() {
-  const images = [preview1, preview2, preview3, preview4, preview5];
   const [current, setCurrent] = useState(0);
   const [isFading, setIsFading] = useState(false);
 
@@ -21,6 +23,13 @@ export default function Landing() {
     }, 3000);
     return () => clearInterval(id);
   }, [images.length]);
+
+  useEffect(() => {
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
 
   const goTo = (index) => {
     setIsFading(true);
@@ -103,12 +112,14 @@ export default function Landing() {
 
         <div className="relative mx-auto w-full max-w-[300px] sm:max-w-[340px]">
   <div className="absolute -inset-1 bg-indigo-500 rounded-[42px] blur opacity-30"></div>
-  <div className="relative bg-black p-2 rounded-[40px] overflow-hidden">
-    <div className="relative w-full">
+    <div className="relative bg-black p-2 rounded-[40px] overflow-hidden">
+    <div className="relative w-full aspect-[9/19.5] bg-slate-900">
       <img
         key={current}
         src={images[current]}
-        className={`rounded-[32px] w-full object-cover block transition-opacity duration-300 ${
+        loading="eager"
+        decoding="async"
+        className={`absolute inset-0 h-full w-full rounded-[32px] object-cover block transition-opacity duration-300 ${
           isFading ? "opacity-0" : "opacity-100"
         }`}
         alt={`University Hub App ${current + 1}`}
