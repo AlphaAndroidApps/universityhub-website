@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>GestureFlow - Custom Android Gesture Shortcuts</title>
-  <meta name="description" content="GestureFlow lets you draw custom gestures to launch apps, shortcuts, communication actions, timers, maps, media controls, and Android system tools.">
+  <title>GestureFlow - One Gesture, Many Android Actions</title>
+  <meta name="description" content="GestureFlow turns custom Android gestures into single actions, action choosers, and multi-step sequences from a floating panel, notification, or widget.">
   <meta name="theme-color" content="#062f33">
-  <meta property="og:title" content="GestureFlow - Draw a gesture. Run an action.">
-  <meta property="og:description" content="Create custom Android gestures for apps, chats, alarms, camera, maps, media controls, widgets, notification mode, and a floating bubble.">
+  <meta property="og:title" content="GestureFlow - One gesture. Many actions.">
+  <meta property="og:description" content="Draw a gesture to launch apps, open action choosers, run sequences, and reach Android tools faster.">
   <meta property="og:image" content="/gestureflow/assets/gestureflow-icon.png">
   <meta property="og:type" content="website">
   <link rel="icon" href="/gestureflow/assets/gestureflow-icon.png">
@@ -15,31 +15,25 @@
     :root {
       color-scheme: light;
       --ink: #0b1718;
-      --muted: #516164;
-      --quiet: #758488;
+      --muted: #536366;
       --paper: #f7fbfa;
       --panel: #ffffff;
-      --line: #d8e5e5;
-      --line-strong: #9fb7b6;
+      --line: #d6e3e2;
       --teal: #007a73;
       --teal-deep: #053f43;
       --teal-dark: #062f33;
       --mint: #89ebe2;
-      --aqua: #c9f5f0;
-      --amber: #f5c96f;
-      --coral: #f06e5d;
-      --shadow: 0 22px 60px rgba(6, 47, 51, .16);
-      --soft-shadow: 0 16px 40px rgba(6, 47, 51, .08);
+      --aqua: #d7f6f2;
+      --warm: #fff8e6;
+      --amber: #f1b343;
+      --coral: #ef6f5f;
+      --shadow: 0 24px 64px rgba(6, 47, 51, .18);
+      --soft-shadow: 0 16px 38px rgba(6, 47, 51, .09);
       --max: 1180px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -50,21 +44,11 @@
       text-rendering: optimizeLegibility;
     }
 
-    img,
-    video {
-      display: block;
-      max-width: 100%;
-    }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, p { margin: 0; }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .site-shell {
-      overflow: hidden;
-      min-height: 100vh;
-    }
+    .site-shell { min-height: 100vh; overflow: hidden; }
 
     .topbar {
       position: fixed;
@@ -76,12 +60,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      padding: 10px 10px 10px 14px;
+      gap: 18px;
+      min-height: 56px;
+      padding: 9px 10px 9px 12px;
       border: 1px solid rgba(255, 255, 255, .46);
       border-radius: 8px;
-      background: rgba(247, 251, 250, .82);
-      box-shadow: 0 12px 28px rgba(6, 47, 51, .11);
+      background: rgba(247, 251, 250, .86);
+      box-shadow: 0 12px 28px rgba(6, 47, 51, .12);
       backdrop-filter: blur(18px);
     }
 
@@ -90,8 +75,7 @@
       align-items: center;
       gap: 10px;
       min-width: 0;
-      font-weight: 800;
-      letter-spacing: 0;
+      font-weight: 900;
     }
 
     .brand img {
@@ -101,9 +85,7 @@
       box-shadow: 0 8px 18px rgba(0, 122, 115, .25);
     }
 
-    .brand span {
-      white-space: nowrap;
-    }
+    .brand span { white-space: nowrap; }
 
     .nav {
       display: flex;
@@ -111,7 +93,7 @@
       gap: 4px;
       color: #244244;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .nav a {
@@ -119,15 +101,13 @@
       border-radius: 8px;
     }
 
-    .nav a:hover,
-    .nav a:focus-visible {
+    .nav a:hover, .nav a:focus-visible {
       outline: none;
       background: rgba(0, 122, 115, .1);
       color: var(--teal-deep);
     }
 
-    .top-cta,
-    .button {
+    .button, .top-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -137,35 +117,33 @@
       border-radius: 8px;
       background: var(--teal);
       color: #ffffff;
-      font-weight: 800;
+      font-weight: 900;
       box-shadow: 0 14px 28px rgba(0, 122, 115, .24);
       transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
     }
 
-    .top-cta:hover,
-    .button:hover {
+    .button:hover, .top-cta:hover {
       transform: translateY(-1px);
       background: #006861;
       box-shadow: 0 18px 34px rgba(0, 122, 115, .28);
     }
 
     .button.secondary {
-      background: #ffffff;
+      background: rgba(255, 255, 255, .92);
       color: var(--teal-deep);
-      border-color: var(--line);
+      border-color: rgba(255, 255, 255, .62);
       box-shadow: none;
     }
 
     .hero {
       position: relative;
-      min-height: 94svh;
+      min-height: 96svh;
       display: grid;
       align-items: center;
-      padding: 132px max(24px, env(safe-area-inset-left)) 76px max(24px, env(safe-area-inset-right));
+      padding: 136px max(24px, env(safe-area-inset-left)) 86px max(24px, env(safe-area-inset-right));
       color: #f7ffff;
       background:
-        linear-gradient(105deg, rgba(5, 34, 37, .98) 0%, rgba(5, 34, 37, .92) 39%, rgba(5, 34, 37, .45) 72%, rgba(5, 34, 37, .18) 100%),
-        url("./assets/home.webp") center right / min(620px, 62vw) auto no-repeat,
+        linear-gradient(115deg, rgba(5, 34, 37, .98) 0%, rgba(5, 34, 37, .94) 54%, rgba(10, 72, 75, .92) 100%),
         #062f33;
     }
 
@@ -184,8 +162,8 @@
       width: min(var(--max), 100%);
       margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
-      gap: clamp(32px, 6vw, 90px);
+      grid-template-columns: minmax(0, .92fr) minmax(330px, .88fr);
+      gap: clamp(36px, 6vw, 92px);
       align-items: center;
     }
 
@@ -201,7 +179,7 @@
       background: rgba(137, 235, 226, .12);
       color: #baf8f0;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
       text-transform: uppercase;
       letter-spacing: .08em;
     }
@@ -215,104 +193,183 @@
       box-shadow: 0 0 0 5px rgba(245, 201, 111, .16);
     }
 
-    h1,
-    h2,
-    h3,
-    p {
-      margin: 0;
-    }
-
     h1 {
-      max-width: 620px;
-      font-size: clamp(48px, 8.4vw, 106px);
+      max-width: 710px;
+      font-size: clamp(54px, 8.2vw, 108px);
       line-height: .9;
-      font-weight: 860;
+      font-weight: 900;
       letter-spacing: 0;
     }
 
     .hero-copy {
-      max-width: 625px;
+      max-width: 640px;
       margin-top: 24px;
       color: rgba(247, 255, 255, .86);
-      font-size: clamp(18px, 2.2vw, 25px);
+      font-size: clamp(18px, 2.1vw, 25px);
       line-height: 1.38;
     }
+
+    .hero-copy strong { color: #ffffff; }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 34px;
+      margin-top: 32px;
     }
 
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      max-width: 650px;
-      margin-top: 34px;
+    .promise-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
     }
 
-    .hero-stat {
-      padding: 15px 14px;
-      border: 1px solid rgba(255, 255, 255, .16);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, .08);
-    }
-
-    .hero-stat strong {
-      display: block;
-      font-size: 24px;
-      line-height: 1.1;
-      color: #ffffff;
-    }
-
-    .hero-stat span {
-      display: block;
-      margin-top: 4px;
-      color: rgba(247, 255, 255, .7);
+    .promise-line span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 0 12px;
+      border: 1px solid rgba(137, 235, 226, .24);
+      border-radius: 999px;
+      background: rgba(137, 235, 226, .11);
+      color: #d8fffa;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 850;
+      white-space: nowrap;
     }
 
-    .phone-video {
-      justify-self: end;
-      width: min(340px, 32vw);
-      min-width: 278px;
+    .motion-stage {
+      position: relative;
+      min-height: 620px;
+    }
+
+    .phone-frame {
+      position: relative;
+      width: min(330px, 34vw);
+      min-width: 292px;
+      margin: 0 0 0 auto;
       aspect-ratio: 9 / 19.5;
       padding: 9px;
       border: 1px solid rgba(255, 255, 255, .22);
       border-radius: 34px;
       background: #071b1e;
       box-shadow: 0 34px 90px rgba(0, 0, 0, .42);
+      overflow: hidden;
     }
 
-    .phone-video video,
-    .phone-shot img {
+    .phone-frame video, .phone-frame img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 26px;
-      background: #eaf3f2;
+      background: #062f33;
     }
 
-    main {
-      position: relative;
-      z-index: 3;
+    .phone-frame.concept {
+      aspect-ratio: 9 / 16;
+      min-width: 0;
+      width: min(342px, 38vw);
+      background: linear-gradient(180deg, #07383b, #051f22);
     }
+
+    .phone-frame.concept video {
+      background: #062f33;
+    }
+
+    .signal-card {
+      position: absolute;
+      left: 0;
+      bottom: 56px;
+      width: min(298px, 70%);
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, .2);
+      border-radius: 8px;
+      background: rgba(247, 251, 250, .94);
+      color: var(--ink);
+      box-shadow: 0 24px 52px rgba(0, 0, 0, .28);
+      backdrop-filter: blur(14px);
+      animation: floatCard 5.2s ease-in-out infinite;
+    }
+
+    .signal-card strong {
+      display: block;
+      line-height: 1.15;
+    }
+
+    .signal-card p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .gesture-svg {
+      position: absolute;
+      left: -24px;
+      top: 78px;
+      width: min(520px, 92%);
+      height: 300px;
+      pointer-events: none;
+    }
+
+    .gesture-svg path {
+      fill: none;
+      stroke: var(--mint);
+      stroke-width: 14;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 14px rgba(137, 235, 226, .34));
+      stroke-dasharray: 720;
+      animation: drawGesture 3.4s ease-in-out infinite;
+    }
+
+    .floating-chip {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0 13px;
+      border-radius: 999px;
+      background: #fff8e6;
+      color: #07383b;
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, .22);
+      animation: floatChip 4.6s ease-in-out infinite;
+    }
+
+    .floating-chip.one { right: 26px; top: 78px; }
+    .floating-chip.two { left: 26px; top: 354px; animation-delay: -.9s; }
+    .floating-chip.three { right: 4px; bottom: 176px; animation-delay: -1.8s; background: #d7f6f2; }
+
+    @keyframes drawGesture {
+      0% { stroke-dashoffset: 720; opacity: .3; }
+      40%, 70% { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: -720; opacity: .25; }
+    }
+
+    @keyframes floatChip {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    main { position: relative; z-index: 3; }
 
     .section {
-      padding: 92px 24px;
+      padding: 96px 24px;
     }
 
-    .section.alt {
-      background: #eef6f5;
-    }
+    .section.alt { background: #eef6f5; }
+    .section.warm { background: #fbf8ef; border-block: 1px solid #eadfc1; }
+    .section.dark { color: #f7ffff; background: #082c30; }
 
-    .section.dark {
-      color: #f7ffff;
-      background: #082c30;
-    }
+    section[id] { scroll-margin-top: 108px; }
 
     .wrap {
       width: min(var(--max), 100%);
@@ -322,9 +379,9 @@
     .section-head {
       display: flex;
       justify-content: space-between;
-      gap: 28px;
       align-items: end;
-      margin-bottom: 34px;
+      gap: 32px;
+      margin-bottom: 36px;
     }
 
     .section-kicker {
@@ -335,95 +392,271 @@
       letter-spacing: .09em;
     }
 
-    .dark .section-kicker {
-      color: var(--mint);
-    }
+    .dark .section-kicker { color: var(--mint); }
 
     h2 {
-      max-width: 770px;
+      max-width: 800px;
       margin-top: 10px;
-      font-size: clamp(34px, 5.6vw, 68px);
+      font-size: clamp(34px, 5.6vw, 70px);
       line-height: .98;
-      font-weight: 840;
+      font-weight: 900;
       letter-spacing: 0;
     }
 
     .section-lede {
-      max-width: 500px;
+      max-width: 520px;
       color: var(--muted);
       font-size: 18px;
     }
 
-    .dark .section-lede,
-    .dark .feature-card p,
-    .dark .mini-copy,
-    .dark .flow-step p {
+    .dark .section-lede { color: rgba(247, 255, 255, .72); }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .story-card {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .story-card strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.12;
+    }
+
+    .story-card p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .story-card span {
+      display: inline-flex;
+      margin-bottom: 18px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: var(--aqua);
+      color: var(--teal-deep);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .dark .story-card {
+      border-color: rgba(137, 235, 226, .22);
+      background: rgba(255, 255, 255, .08);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, .18);
+    }
+
+    .dark .story-card strong {
+      color: #f7ffff;
+    }
+
+    .dark .story-card p {
       color: rgba(247, 255, 255, .72);
     }
 
-    .feature-grid {
+    .dark .story-card span {
+      border: 1px solid rgba(137, 235, 226, .26);
+      background: rgba(137, 235, 226, .16);
+      color: #c9fff8;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+
+    .demo-card {
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .08);
+      overflow: hidden;
+      box-shadow: 0 22px 54px rgba(0, 0, 0, .22);
+    }
+
+    .demo-card video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      background: #062f33;
+    }
+
+    .demo-caption {
+      padding: 18px;
+    }
+
+    .demo-caption strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1.12;
+    }
+
+    .demo-caption p {
+      margin-top: 8px;
+      color: rgba(247, 255, 255, .68);
+      font-size: 14px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(320px, 1.05fr);
+      gap: 48px;
+      align-items: center;
+    }
+
+    .mode-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .mode-card {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 16px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .mode-card:nth-child(2) { background: var(--warm); border-color: #ead7a5; }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      background: var(--aqua);
+      color: var(--teal);
+      font-weight: 900;
+    }
+
+    .mode-card strong, .action-card strong, .privacy-row strong {
+      display: block;
+      line-height: 1.15;
+    }
+
+    .mode-card p, .action-card p, .privacy-row p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .video-frame {
+      width: min(390px, 100%);
+      margin: 0 auto;
+      padding: 8px;
+      border-radius: 32px;
+      background: #071b1e;
+      box-shadow: var(--shadow);
+    }
+
+    .video-frame video, .video-frame img {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: 24px;
+      background: #eaf3f2;
+    }
+
+    .wide-video {
+      position: relative;
+      min-height: 620px;
+    }
+
+    .wide-video .video-frame:first-child {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 330px;
+      transform: rotate(-2deg);
+    }
+
+    .wide-video .video-frame:last-child {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 330px;
+      transform: rotate(3deg);
+    }
+
+    .behavior-board {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 340px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: var(--shadow);
+      transform: rotate(3deg);
+    }
+
+    .behavior-board h3 {
+      margin: 0 0 18px;
+      font-size: 24px;
+      line-height: 1.08;
+    }
+
+    .behavior-row {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .behavior-row:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .behavior-row strong {
+      display: block;
+      line-height: 1.12;
+    }
+
+    .behavior-row p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .action-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
     }
 
-    .feature-card {
-      min-height: 220px;
+    .action-card {
+      min-height: 210px;
       padding: 22px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: var(--panel);
+      background: #ffffff;
       box-shadow: var(--soft-shadow);
     }
 
-    .feature-card.accent {
-      background: #fffaf0;
-      border-color: #f2dcaa;
-    }
-
-    .feature-card.dark-card {
-      background: rgba(255, 255, 255, .08);
-      border-color: rgba(255, 255, 255, .16);
-      box-shadow: none;
-    }
-
-    .icon-block {
-      display: grid;
-      place-items: center;
+    .action-card .mark {
       width: 46px;
       height: 46px;
       margin-bottom: 18px;
-      border-radius: 8px;
-      background: #dff8f5;
-      color: var(--teal);
-      font-size: 18px;
-      font-weight: 900;
-    }
-
-    .accent .icon-block {
-      background: #ffecc0;
-      color: #855a00;
-    }
-
-    .dark-card .icon-block {
-      background: rgba(137, 235, 226, .18);
-      color: #c9fff8;
-    }
-
-    .feature-card h3,
-    .flow-step h3,
-    .surface h3 {
-      font-size: 21px;
-      line-height: 1.15;
-      letter-spacing: 0;
-    }
-
-    .feature-card p,
-    .flow-step p,
-    .surface p {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 15px;
     }
 
     .chip-list {
@@ -440,139 +673,51 @@
       background: rgba(201, 245, 240, .56);
       color: #0b5757;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 850;
       white-space: nowrap;
     }
 
-    .showcase {
-      display: grid;
-      grid-template-columns: minmax(0, 1.04fr) minmax(310px, .96fr);
-      gap: 44px;
-      align-items: center;
-    }
-
-    .phone-stack {
-      position: relative;
-      min-height: 650px;
-    }
-
-    .phone-shot {
-      position: absolute;
-      width: 310px;
-      aspect-ratio: 9 / 19.5;
-      padding: 8px;
-      border-radius: 32px;
-      background: #071b1e;
-      box-shadow: var(--shadow);
-    }
-
-    .phone-shot.primary {
-      left: 8%;
-      top: 0;
-      z-index: 3;
-    }
-
-    .phone-shot.secondary {
-      right: 3%;
-      top: 94px;
-      z-index: 2;
-      transform: rotate(4deg);
-      opacity: .96;
-    }
-
-    .phone-shot.tertiary {
-      left: 28%;
-      bottom: 0;
-      z-index: 1;
-      transform: rotate(-4deg);
-      opacity: .9;
-    }
-
-    .mini-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .mini-copy {
-      padding: 22px 0 20px;
-      border-bottom: 1px solid rgba(159, 183, 182, .42);
-    }
-
-    .mini-copy:last-child {
-      border-bottom: 0;
-    }
-
-    .mini-copy strong {
-      display: block;
-      font-size: 22px;
-      line-height: 1.2;
-    }
-
-    .mini-copy p {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 16px;
-    }
-
-    .surface-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 36px;
-    }
-
-    .surface {
-      padding: 24px;
-      border: 1px solid rgba(255, 255, 255, .16);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, .08);
-    }
-
-    .surface .surface-label {
-      display: inline-flex;
-      margin-bottom: 18px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: rgba(137, 235, 226, .16);
-      color: var(--mint);
-      font-size: 12px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-
-    .flow {
+    .workflow {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 18px;
-      counter-reset: flow;
+      counter-reset: step;
     }
 
-    .flow-step {
-      position: relative;
-      min-height: 240px;
+    .workflow-step {
+      min-height: 235px;
       padding: 24px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #ffffff;
       box-shadow: var(--soft-shadow);
-      counter-increment: flow;
+      counter-increment: step;
     }
 
-    .flow-step::before {
-      content: counter(flow, decimal-leading-zero);
+    .workflow-step::before {
+      content: counter(step, decimal-leading-zero);
       display: inline-flex;
-      margin-bottom: 42px;
-      color: rgba(0, 122, 115, .26);
+      margin-bottom: 38px;
+      color: rgba(0, 122, 115, .28);
       font-size: 42px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: 0;
     }
 
-    .media-gallery {
+    .workflow-step h3 {
+      font-size: 21px;
+      line-height: 1.15;
+    }
+
+    .workflow-step p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .gallery-reel {
       display: grid;
-      grid-template-columns: repeat(5, minmax(180px, 1fr));
+      grid-template-columns: repeat(6, minmax(190px, 1fr));
       gap: 18px;
       overflow-x: auto;
       padding-bottom: 12px;
@@ -583,18 +728,29 @@
       scroll-snap-align: start;
     }
 
-    .gallery-item .phone-shot {
-      position: static;
+    .phone-shot {
       width: 100%;
-      min-width: 180px;
+      min-width: 0;
+      aspect-ratio: 9 / 19.5;
+      padding: 8px;
+      border-radius: 32px;
+      background: #071b1e;
       box-shadow: 0 18px 44px rgba(6, 47, 51, .14);
+    }
+
+    .phone-shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 24px;
+      background: #eaf3f2;
     }
 
     .gallery-label {
       margin-top: 12px;
       color: var(--muted);
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 850;
       text-align: center;
     }
 
@@ -620,45 +776,39 @@
       background: rgba(255, 255, 255, .08);
     }
 
-    .privacy-row strong {
-      display: block;
-      font-size: 18px;
-    }
-
     .privacy-row p {
-      margin-top: 4px;
       color: rgba(247, 255, 255, .7);
     }
 
-    .mark {
-      display: grid;
-      place-items: center;
+    .privacy-row .mark {
       width: 42px;
       height: 42px;
-      border-radius: 8px;
       background: rgba(137, 235, 226, .18);
       color: var(--mint);
-      font-weight: 900;
+    }
+
+    .privacy-note {
+      margin-top: 22px;
+      padding: 18px;
+      border: 1px solid rgba(137, 235, 226, .18);
+      border-radius: 8px;
+      background: rgba(137, 235, 226, .1);
+      color: rgba(247, 255, 255, .76);
     }
 
     .cta {
-      padding: 72px 24px max(80px, calc(80px + env(safe-area-inset-bottom)));
+      padding: 78px 24px max(86px, calc(86px + env(safe-area-inset-bottom)));
       background: #fbf8ef;
       border-top: 1px solid #eadfc1;
     }
 
     .cta-panel {
+      width: min(var(--max), 100%);
+      margin: 0 auto;
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
       gap: 28px;
-      width: min(var(--max), 100%);
-      margin: 0 auto;
-    }
-
-    .cta h2 {
-      max-width: 760px;
-      color: #151712;
     }
 
     .cta p {
@@ -684,48 +834,76 @@
 
     .footer a {
       color: #c9fff8;
-      font-weight: 800;
+      font-weight: 850;
     }
 
-    @media (max-width: 1040px) {
-      .feature-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
       }
+    }
 
-      .showcase,
-      .privacy-band {
+    @media (max-width: 1060px) {
+      .hero-inner, .split, .privacy-band {
         grid-template-columns: 1fr;
       }
 
-      .phone-stack {
-        min-height: 610px;
+      .motion-stage {
+        min-height: auto;
+        display: grid;
+        justify-items: center;
       }
 
-      .flow {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .signal-card {
+        position: static;
+        width: min(360px, 100%);
+        margin-top: 18px;
       }
-    }
 
-    @media (max-width: 840px) {
-      .nav {
+      .gesture-svg, .floating-chip {
         display: none;
       }
 
-      .hero {
-        padding-top: 112px;
-        background:
-          linear-gradient(180deg, rgba(5, 34, 37, .98) 0%, rgba(5, 34, 37, .94) 58%, rgba(5, 34, 37, .76) 100%),
-          url("./assets/help.webp") center bottom / min(520px, 96vw) auto no-repeat,
-          #062f33;
-      }
-
-      .hero-inner {
+      .story-grid, .demo-grid {
         grid-template-columns: 1fr;
       }
 
-      .phone-video {
-        justify-self: center;
-        width: min(330px, 78vw);
+      .action-grid, .workflow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .wide-video {
+        min-height: auto;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .wide-video .video-frame:first-child,
+      .wide-video .video-frame:last-child,
+      .wide-video .behavior-board {
+        position: static;
+        width: min(340px, 100%);
+        transform: none;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .nav { display: none; }
+
+      .hero {
+        min-height: auto;
+        padding-top: 112px;
+        padding-bottom: 56px;
+        background:
+          linear-gradient(180deg, rgba(5, 34, 37, .98) 0%, rgba(5, 34, 37, .96) 70%, rgba(8, 48, 52, .96) 100%),
+          #062f33;
+      }
+
+      h1 {
+        font-size: clamp(48px, 14vw, 66px);
       }
 
       .section-head {
@@ -736,9 +914,11 @@
         margin-top: 18px;
       }
 
-      .surface-grid,
-      .cta-panel {
-        grid-template-columns: 1fr;
+      .phone-frame,
+      .phone-frame.concept {
+        width: min(330px, 86vw);
+        min-width: 0;
+        margin: 0 auto;
       }
     }
 
@@ -759,43 +939,68 @@
         font-size: 13px;
       }
 
-      .hero-stats,
-      .feature-grid,
-      .flow {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: clamp(46px, 14vw, 56px);
+      .hero, .section {
+        padding-inline: 18px;
       }
 
       .section {
-        padding: 70px 18px;
+        padding-block: 64px;
       }
 
-      .phone-stack {
-        min-height: auto;
+      .hero-copy {
+        margin-top: 18px;
+        font-size: 17px;
+      }
+
+      .promise-line {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .promise-line span {
+        justify-content: center;
+        white-space: normal;
+        text-align: center;
+      }
+
+      .motion-stage {
+        margin-top: 34px;
+      }
+
+      .demo-grid {
+        gap: 28px;
+      }
+
+      .demo-card video {
+        aspect-ratio: 9 / 16;
+      }
+
+      .promise-line, .hero-actions {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 18px;
       }
 
-      .phone-shot,
-      .phone-shot.primary,
-      .phone-shot.secondary,
-      .phone-shot.tertiary {
-        position: static;
-        width: min(300px, 100%);
-        margin: 0 auto;
-        transform: none;
-      }
+      .promise-line { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-      .media-gallery {
-        grid-template-columns: repeat(5, 220px);
-      }
+      .hero-actions { grid-template-columns: 1fr; }
 
       .button {
         width: 100%;
+      }
+
+      .action-grid, .workflow, .wide-video {
+        grid-template-columns: 1fr;
+      }
+
+      .mode-card {
+        grid-template-columns: 44px 1fr;
+      }
+
+      .gallery-reel {
+        grid-template-columns: repeat(6, 220px);
+      }
+
+      .cta-panel {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -808,10 +1013,10 @@
         <span>GestureFlow</span>
       </a>
       <nav class="nav" aria-label="Page sections">
-        <a href="#actions">Actions</a>
+        <a href="#watch">Watch</a>
+        <a href="#sequences">Sequences</a>
         <a href="#access">Access</a>
-        <a href="#workflow">Workflow</a>
-        <a href="#privacy">Privacy</a>
+        <a href="#actions">Actions</a>
       </nav>
       <a class="top-cta" href="https://play.google.com/store/apps/details?id=com.mervin.gestureflow">Open Play</a>
     </header>
@@ -819,181 +1024,262 @@
     <section class="hero" id="top">
       <div class="hero-inner">
         <div>
-          <div class="eyebrow">Android gesture shortcuts</div>
-          <h1>GestureFlow</h1>
-          <p class="hero-copy">Draw a shape and run the thing you meant to do: open an app, start a timer, launch a chat, search Maps, control media, or jump into a system tool without digging through screens.</p>
-          <div class="hero-actions">
-            <a class="button" href="https://play.google.com/store/apps/details?id=com.mervin.gestureflow">Install from Play testing</a>
-            <a class="button secondary" href="#actions">See what it can do</a>
+          <div class="eyebrow">Android gesture command center</div>
+          <h1>One gesture can become a flow.</h1>
+          <p class="hero-copy"><strong>GestureFlow</strong> lets you draw a shape and choose what it means: one action, a menu of related actions, or a sequence that runs multiple steps.</p>
+          <div class="promise-line" aria-label="GestureFlow capabilities">
+            <span>Single actions</span>
+            <span>Action chooser</span>
+            <span>Sequence actions</span>
+            <span>Live panel</span>
           </div>
-          <div class="hero-stats" aria-label="GestureFlow highlights">
-            <div class="hero-stat">
-              <strong>Dozens</strong>
-              <span>Built-in actions</span>
-            </div>
-            <div class="hero-stat">
-              <strong>3</strong>
-              <span>Access surfaces</span>
-            </div>
-            <div class="hero-stat">
-              <strong>Custom</strong>
-              <span>Apps, intents, sequences</span>
-            </div>
+          <div class="hero-actions">
+            <a class="button" href="https://play.google.com/store/apps/details?id=com.mervin.gestureflow">Open Play testing</a>
+            <a class="button secondary" href="#watch">Watch how it works</a>
           </div>
         </div>
 
-        <figure class="phone-video" aria-label="GestureFlow app walkthrough">
-          <video autoplay muted loop playsinline poster="./assets/video-poster.webp">
-            <source src="./assets/gestureflow-walkthrough.mp4" type="video/mp4">
-          </video>
-        </figure>
+        <div class="motion-stage" aria-label="GestureFlow in motion">
+          <svg class="gesture-svg" viewBox="0 0 560 320" aria-hidden="true">
+            <path d="M32 224 C104 98 184 276 270 132 C348 4 424 212 528 74"></path>
+          </svg>
+          <span class="floating-chip one">Open chooser</span>
+          <span class="floating-chip two">Run sequence</span>
+          <span class="floating-chip three">Launch action</span>
+          <figure class="phone-frame concept">
+            <video autoplay muted loop playsinline poster="./assets/gestureflow-hero-concept.webp">
+              <source src="./assets/gestureflow-hero-concept.webm" type="video/webm">
+            </video>
+          </figure>
+          <div class="signal-card">
+            <strong>Not just "open app".</strong>
+            <p>Use one shape to pick from actions or run a multi-step shortcut.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <main>
+      <section class="section" id="story">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">The idea</div>
+              <h2>Your phone already has the actions. GestureFlow makes them reachable.</h2>
+            </div>
+            <p class="section-lede">Most shortcuts stop at launching an app. GestureFlow is built for what happens after that: choosing, searching, calling, navigating, timing, testing, and chaining.</p>
+          </div>
+          <div class="story-grid">
+            <article class="story-card">
+              <span>Remember less</span>
+              <strong>Draw what feels natural.</strong>
+              <p>Use shapes, letters, or quick marks that make sense to you instead of memorizing where every app hides a feature.</p>
+            </article>
+            <article class="story-card">
+              <span>Do more</span>
+              <strong>Let one gesture hold a context.</strong>
+              <p>A work gesture can open a chooser. A travel gesture can search Maps. A routine gesture can become a sequence.</p>
+            </article>
+            <article class="story-card">
+              <span>Stay ready</span>
+              <strong>See what Android needs.</strong>
+              <p>Reliability health explains missing setup and gives direct actions to improve bubble, notification, widget, and background access.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section dark" id="watch">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Watch it work</div>
+              <h2>Watch the idea before the screenshots.</h2>
+            </div>
+            <p class="section-lede">Each clip shows a different outcome: pick from a gesture menu, run a sequence, or start from the access surface that fits the moment.</p>
+          </div>
+          <div class="demo-grid">
+            <article class="demo-card">
+              <video autoplay muted loop playsinline poster="./assets/gestureflow-demo-chooser.webp">
+                <source src="./assets/gestureflow-demo-chooser.webm" type="video/webm">
+              </video>
+              <div class="demo-caption">
+                <strong>One gesture, many choices</strong>
+                <p>Draw once and pick the exact shortcut you need right now.</p>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video autoplay muted loop playsinline poster="./assets/gestureflow-demo-sequence-flow.webp">
+                <source src="./assets/gestureflow-demo-sequence-flow.webm" type="video/webm">
+              </video>
+              <div class="demo-caption">
+                <strong>One gesture, multiple steps</strong>
+                <p>Turn repeated routines into a flow instead of doing each step manually.</p>
+              </div>
+            </article>
+            <article class="demo-card">
+              <video autoplay muted loop playsinline poster="./assets/gestureflow-demo-surfaces.webp">
+                <source src="./assets/gestureflow-demo-surfaces.webm" type="video/webm">
+              </video>
+              <div class="demo-caption">
+                <strong>Use the surface that fits</strong>
+                <p>Start from bubble, notification, or widget without opening the full app.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="sequences">
+        <div class="wrap split">
+          <div>
+            <div class="section-kicker">One shape, three behaviors</div>
+            <h2>A gesture can be simple, flexible, or powerful.</h2>
+            <p class="section-lede">Start with a fast direct action. When a shortcut grows, turn the same idea into a chooser or sequence so one gesture can handle a whole situation.</p>
+            <div class="mode-stack">
+              <article class="mode-card">
+                <div class="mark">1</div>
+                <div>
+                  <strong>Direct action</strong>
+                  <p>Draw C to open Camera, T to start a timer, or M to open a map search.</p>
+                </div>
+              </article>
+              <article class="mode-card">
+                <div class="mark">2</div>
+                <div>
+                  <strong>Action chooser</strong>
+                  <p>Draw one work gesture and choose from email, calendar, notes, maps, or a saved contact.</p>
+                </div>
+              </article>
+              <article class="mode-card">
+                <div class="mark">3</div>
+                <div>
+                  <strong>Sequence actions</strong>
+                  <p>Group multiple actions under one gesture when the shortcut should behave like a flow.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="wide-video">
+            <figure class="video-frame">
+              <video autoplay muted loop playsinline poster="./assets/gestureflow-demo-sequence-flow.webp">
+                <source src="./assets/gestureflow-demo-sequence-flow.webm" type="video/webm">
+              </video>
+            </figure>
+            <div class="behavior-board" aria-label="Gesture behavior types">
+              <h3>The same shape can grow with you.</h3>
+              <div class="behavior-row">
+                <div class="mark">1</div>
+                <div><strong>Direct</strong><p>Fast one-tap outcome for simple jobs.</p></div>
+              </div>
+              <div class="behavior-row">
+                <div class="mark">2</div>
+                <div><strong>Chooser</strong><p>One gesture opens a small menu of related actions.</p></div>
+              </div>
+              <div class="behavior-row">
+                <div class="mark">3</div>
+                <div><strong>Sequence</strong><p>Multiple steps run as one routine.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section dark" id="access">
+        <div class="wrap split">
+          <div class="video-frame">
+            <video autoplay muted loop playsinline poster="./assets/gestureflow-demo-surfaces.webp">
+              <source src="./assets/gestureflow-demo-surfaces.webm" type="video/webm">
+            </video>
+          </div>
+          <div>
+            <div class="section-kicker">Live access</div>
+            <h2>The gesture panel is there when you need it.</h2>
+            <p class="section-lede">GestureFlow is user-triggered. Use Bubble mode for speed, Notification mode for less visual clutter, or a home-screen widget as a dependable fallback.</p>
+            <div class="story-grid">
+              <article class="story-card">
+                <span>Bubble</span>
+                <strong>Fast floating access</strong>
+                <p>Tap the GestureFlow logo, draw, and trigger your saved action.</p>
+              </article>
+              <article class="story-card">
+                <span>Panel</span>
+                <strong>Quieter entry point</strong>
+                <p>Use notification access when you do not want a bubble on screen.</p>
+              </article>
+              <article class="story-card">
+                <span>Widget</span>
+                <strong>Launcher fallback</strong>
+                <p>Keep draw and open actions available from the home screen.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section" id="actions">
         <div class="wrap">
           <div class="section-head">
             <div>
-              <div class="section-kicker">What it does</div>
-              <h2>Turn frequent phone tasks into gestures you remember.</h2>
+              <div class="section-kicker">Action library</div>
+              <h2>Built for the tiny tasks you repeat all day.</h2>
             </div>
-            <p class="section-lede">GestureFlow is built for the small actions you repeat every day. Instead of hunting through apps, menus, and settings, you choose a gesture and connect it to the action you want.</p>
+            <p class="section-lede">GestureFlow brings app, communication, clock, search, media, map, and system actions into one gesture setup flow.</p>
           </div>
-
-          <div class="feature-grid">
-            <article class="feature-card">
-              <div class="icon-block">A</div>
-              <h3>Launch apps and shortcuts</h3>
-              <p>Open installed apps, URLs, deep links, Android settings pages, calculator, downloads, camera, voice recorder, or any app-specific shortcut you configure.</p>
-              <div class="chip-list">
-                <span class="chip">Apps</span>
-                <span class="chip">URLs</span>
-                <span class="chip">Settings</span>
-              </div>
+          <div class="action-grid">
+            <article class="action-card">
+              <div class="mark">C</div>
+              <strong>Communication</strong>
+              <p>Open chats, compose SMS or email, dial a saved number, or start a supported app conversation.</p>
+              <div class="chip-list"><span class="chip">Chats</span><span class="chip">SMS</span><span class="chip">Email</span></div>
             </article>
-            <article class="feature-card accent">
-              <div class="icon-block">C</div>
-              <h3>Move faster with communication</h3>
-              <p>Open WhatsApp or Telegram contacts, compose SMS or email, dial a saved number, share saved text, or copy a reusable message to the clipboard.</p>
-              <div class="chip-list">
-                <span class="chip">WhatsApp</span>
-                <span class="chip">Telegram</span>
-                <span class="chip">SMS</span>
-              </div>
+            <article class="action-card">
+              <div class="mark">T</div>
+              <strong>Clock and planning</strong>
+              <p>Start timers, set alarms, open alarm tools, and jump into calendar workflows.</p>
+              <div class="chip-list"><span class="chip">Timer</span><span class="chip">Alarm</span><span class="chip">Calendar</span></div>
             </article>
-            <article class="feature-card">
-              <div class="icon-block">T</div>
-              <h3>Start clock and planning actions</h3>
-              <p>Set an alarm, start a saved timer, open alarms or timers, and jump into your calendar when timing matters more than navigation.</p>
-              <div class="chip-list">
-                <span class="chip">Alarm</span>
-                <span class="chip">Timer</span>
-                <span class="chip">Calendar</span>
-              </div>
+            <article class="action-card">
+              <div class="mark">M</div>
+              <strong>Maps, search, media</strong>
+              <p>Search the web, Maps, YouTube, or Spotify, navigate to places, and control everyday media tools.</p>
+              <div class="chip-list"><span class="chip">Maps</span><span class="chip">Search</span><span class="chip">Media</span></div>
             </article>
-            <article class="feature-card">
-              <div class="icon-block">S</div>
-              <h3>Search, maps, and media</h3>
-              <p>Search the web, search Maps, navigate to a saved place, search YouTube or Spotify, open Instagram profiles, toggle flashlight, and control volume or play/pause.</p>
-              <div class="chip-list">
-                <span class="chip">Maps</span>
-                <span class="chip">Media</span>
-                <span class="chip">Flashlight</span>
-              </div>
+            <article class="action-card">
+              <div class="mark">U</div>
+              <strong>Utilities and system tools</strong>
+              <p>Open settings, flashlight, camera, downloads, calculator, URLs, deep links, and custom actions.</p>
+              <div class="chip-list"><span class="chip">Settings</span><span class="chip">Camera</span><span class="chip">Links</span></div>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="section alt" id="access">
-        <div class="wrap showcase">
-          <div class="phone-stack" aria-label="GestureFlow screenshots">
-            <figure class="phone-shot primary">
-              <img src="./assets/gestures.webp" alt="GestureFlow gestures screen showing starter gestures and saved gesture list">
-            </figure>
-            <figure class="phone-shot secondary">
-              <img src="./assets/test.webp" alt="GestureFlow test screen with a draw area and recognition result">
-            </figure>
-            <figure class="phone-shot tertiary">
-              <img src="./assets/settings.webp" alt="GestureFlow settings screen for bubble and recognition controls">
-            </figure>
-          </div>
-          <div>
-            <div class="section-kicker">How you access it</div>
-            <h2>Choose the surface that fits the moment.</h2>
-            <div class="mini-grid">
-              <div class="mini-copy">
-                <strong>Floating bubble for the fastest path.</strong>
-                <p>Keep the GestureFlow logo on screen, tap it, draw, and trigger your saved gesture from wherever you are.</p>
-              </div>
-              <div class="mini-copy">
-                <strong>Notification mode when you want less visual clutter.</strong>
-                <p>Use a persistent notification entry point instead of a floating element, while still keeping gesture access close.</p>
-              </div>
-              <div class="mini-copy">
-                <strong>Home-screen widget for dependable recovery.</strong>
-                <p>Use Draw and Open actions from the launcher, especially on phones that aggressively clear background apps.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section dark">
-        <div class="wrap">
-          <div class="section-head">
-            <div>
-              <div class="section-kicker">Built for real Android behavior</div>
-              <h2>Fast when possible. Honest when Android needs a permission.</h2>
-            </div>
-            <p class="section-lede">Some actions need Android access, and GestureFlow asks at the right moment instead of overwhelming you on first launch.</p>
-          </div>
-          <div class="surface-grid">
-            <article class="surface">
-              <span class="surface-label">Bubble</span>
-              <h3>Overlay access</h3>
-              <p>Needed only when you want the floating bubble or drawing over other apps. You stay in control and can stop it anytime.</p>
-            </article>
-            <article class="surface">
-              <span class="surface-label">Notification</span>
-              <h3>Notification permission</h3>
-              <p>Used for notification mode and foreground service visibility, so Android and the user both know GestureFlow is active.</p>
-            </article>
-            <article class="surface">
-              <span class="surface-label">Actions</span>
-              <h3>Context permissions</h3>
-              <p>Contacts, phone, camera, alarms, and similar access are explained when a gesture actually needs that capability.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="workflow">
+      <section class="section warm" id="workflow">
         <div class="wrap">
           <div class="section-head">
             <div>
               <div class="section-kicker">Workflow</div>
-              <h2>Create once, run from anywhere.</h2>
+              <h2>Create, choose, test, and trust.</h2>
             </div>
-            <p class="section-lede">GestureFlow gives you starter packs to move quickly, then lets you fine-tune your own shapes, actions, reliability, bubble size, opacity, and recognition behavior.</p>
+            <p class="section-lede">GestureFlow keeps setup simple first, then gives deeper controls when a gesture deserves more behavior.</p>
           </div>
-          <div class="flow">
-            <article class="flow-step">
-              <h3>Pick an action</h3>
-              <p>Choose from system actions, app launches, social shortcuts, searches, timers, media controls, sequences, or custom intents.</p>
-            </article>
-            <article class="flow-step">
+          <div class="workflow">
+            <article class="workflow-step">
               <h3>Draw the gesture</h3>
-              <p>Record a shape that feels natural to you, from simple letters to quick symbols tied to the task.</p>
+              <p>Name it, draw one clean shape, and keep it easy to remember.</p>
             </article>
-            <article class="flow-step">
+            <article class="workflow-step">
+              <h3>Choose the action</h3>
+              <p>Pick a direct action, app shortcut, chooser, sequence, URL, search, system action, or custom flow.</p>
+            </article>
+            <article class="workflow-step">
               <h3>Test recognition</h3>
-              <p>Use the Test screen to confirm the gesture is recognized before relying on the bubble, notification, or widget.</p>
+              <p>Confirm the gesture is recognized before relying on it outside the app.</p>
             </article>
-            <article class="flow-step">
+            <article class="workflow-step">
               <h3>Improve reliability</h3>
-              <p>Review health checks and direct setup actions for overlay, notification, widget, battery, background, and alarm recovery.</p>
+              <p>Use health checks to see what needs attention and open setup actions directly.</p>
             </article>
           </div>
         </div>
@@ -1004,31 +1290,17 @@
           <div class="section-head">
             <div>
               <div class="section-kicker">Product tour</div>
-              <h2>Actual screens from GestureFlow.</h2>
+              <h2>Real app screens, only after the promise is clear.</h2>
             </div>
-            <p class="section-lede">These captures come from the current Android build, including the new GestureFlow logo bubble.</p>
+            <p class="section-lede">The product tour stays lower on the page so mobile visitors first understand why GestureFlow matters, then see the current build.</p>
           </div>
-          <div class="media-gallery" aria-label="GestureFlow screenshot gallery">
-            <figure class="gallery-item">
-              <div class="phone-shot"><img src="./assets/home.webp" alt="GestureFlow home screen with recent gestures and floating bubble"></div>
-              <figcaption class="gallery-label">Home and live access</figcaption>
-            </figure>
-            <figure class="gallery-item">
-              <div class="phone-shot"><img src="./assets/gestures.webp" alt="GestureFlow saved gestures screen"></div>
-              <figcaption class="gallery-label">Saved gestures</figcaption>
-            </figure>
-            <figure class="gallery-item">
-              <div class="phone-shot"><img src="./assets/test.webp" alt="GestureFlow gesture test screen"></div>
-              <figcaption class="gallery-label">Gesture testing</figcaption>
-            </figure>
-            <figure class="gallery-item">
-              <div class="phone-shot"><img src="./assets/settings.webp" alt="GestureFlow settings screen"></div>
-              <figcaption class="gallery-label">Bubble settings</figcaption>
-            </figure>
-            <figure class="gallery-item">
-              <div class="phone-shot"><img src="./assets/help.webp" alt="GestureFlow help screen"></div>
-              <figcaption class="gallery-label">Guided setup</figcaption>
-            </figure>
+          <div class="gallery-reel" aria-label="GestureFlow screenshot gallery">
+            <figure class="gallery-item"><div class="phone-shot"><img src="./assets/home.webp" alt="GestureFlow home screen with live access and reliability health"></div><figcaption class="gallery-label">Home and reliability</figcaption></figure>
+            <figure class="gallery-item"><div class="phone-shot"><img src="./assets/create-gesture.webp" alt="GestureFlow create gesture screen"></div><figcaption class="gallery-label">Create a gesture</figcaption></figure>
+            <figure class="gallery-item"><div class="phone-shot"><img src="./assets/action-library.webp" alt="GestureFlow action library screen"></div><figcaption class="gallery-label">Action library</figcaption></figure>
+            <figure class="gallery-item"><div class="phone-shot"><img src="./assets/sequence-actions.webp" alt="GestureFlow sequence action options"></div><figcaption class="gallery-label">Multiple actions</figcaption></figure>
+            <figure class="gallery-item"><div class="phone-shot"><img src="./assets/bubble-panel.webp" alt="GestureFlow live bubble gesture panel"></div><figcaption class="gallery-label">Live panel</figcaption></figure>
+            <figure class="gallery-item"><div class="phone-shot"><img src="./assets/test.webp" alt="GestureFlow gesture test screen"></div><figcaption class="gallery-label">Gesture testing</figcaption></figure>
           </div>
         </div>
       </section>
@@ -1038,37 +1310,14 @@
           <div>
             <div class="section-kicker">Privacy and control</div>
             <h2>You decide which powers GestureFlow gets.</h2>
-            <p class="section-lede">GestureFlow is designed around user-triggered shortcuts. Permissions are tied to the features you choose, and gesture setup stays focused on your device experience.</p>
+            <p class="section-lede">GestureFlow is designed around gestures you create and actions you trigger. Permissions are explained in context and tied to the features you choose.</p>
+            <div class="privacy-note">The app explains why access matters before sensitive capabilities such as overlay, notifications, calling, camera, flashlight, or alarms.</div>
           </div>
           <div class="privacy-list">
-            <div class="privacy-row">
-              <div class="mark">1</div>
-              <div>
-                <strong>Permissions are feature-based.</strong>
-                <p>Overlay, notifications, contacts, phone, camera, and alarms are requested only when they support a chosen gesture or access mode.</p>
-              </div>
-            </div>
-            <div class="privacy-row">
-              <div class="mark">2</div>
-              <div>
-                <strong>You can stop live access.</strong>
-                <p>Bubble and notification mode are user controlled, visible, and can be stopped from inside the app.</p>
-              </div>
-            </div>
-            <div class="privacy-row">
-              <div class="mark">3</div>
-              <div>
-                <strong>Clear explanations before sensitive actions.</strong>
-                <p>GestureFlow explains why a permission matters before actions such as direct calling, flashlight, overlay drawing, or alarms.</p>
-              </div>
-            </div>
-            <div class="privacy-row">
-              <div class="mark">4</div>
-              <div>
-                <strong>Public policy ready.</strong>
-                <p>The privacy policy is available at <a href="/gestureflow/privacy-policy/">universityhub.co.in/gestureflow/privacy-policy</a>.</p>
-              </div>
-            </div>
+            <div class="privacy-row"><div class="mark">1</div><div><strong>Permissions are feature-based.</strong><p>Overlay, notifications, contacts, phone, camera, and alarms are requested only when they support a chosen gesture or access mode.</p></div></div>
+            <div class="privacy-row"><div class="mark">2</div><div><strong>You can stop live access.</strong><p>Bubble and notification mode are user controlled, visible, and can be stopped from inside the app.</p></div></div>
+            <div class="privacy-row"><div class="mark">3</div><div><strong>Reliability stays transparent.</strong><p>Health checks show what contributes to dependable access and what needs setup.</p></div></div>
+            <div class="privacy-row"><div class="mark">4</div><div><strong>Public policy ready.</strong><p>The privacy policy is available at <a href="/gestureflow/privacy-policy/">universityhub.co.in/gestureflow/privacy-policy</a>.</p></div></div>
           </div>
         </div>
       </section>
@@ -1077,8 +1326,8 @@
         <div class="cta-panel">
           <div>
             <div class="section-kicker">First release</div>
-            <h2>GestureFlow is ready for Android testing.</h2>
-            <p>Install through the Play testing link, try the starter gestures, create your own shortcuts, and tune the access mode that feels best on your phone.</p>
+            <h2>Build gestures for the way you actually use Android.</h2>
+            <p>Install through the Play testing link, try starter gestures, create your own action flows, and tune the access surface that feels best on your phone.</p>
           </div>
           <div class="hero-actions">
             <a class="button" href="https://play.google.com/store/apps/details?id=com.mervin.gestureflow">Open Play testing</a>
@@ -1090,7 +1339,7 @@
 
     <footer class="footer">
       <div class="wrap">
-        <span>GestureFlow by Mervin. Android gesture shortcuts for fast, user-triggered actions.</span>
+        <span>GestureFlow by Mervin. Android gesture shortcuts for single actions, choosers, and multi-step flows.</span>
         <span><a href="/gestureflow/privacy-policy/">Privacy policy</a></span>
       </div>
     </footer>
